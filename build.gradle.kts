@@ -18,7 +18,16 @@ object Versions {
     const val koin = "3.2.0"
     const val ktor = "1.6.7"
     const val serialization = "1.3.3"
+    const val mui = "+"
+    const val react = "17.0.2-pre.290-kotlin-1.6.10"
+    const val logback = "1.2.11"
+    const val htmlJvm = "0.7.2"
+    const val vk = "1.0.14"
+    const val opencv = "4.5.1-2"
 }
+
+fun kotlinw(target: String): String =
+    "org.jetbrains.kotlin-wrappers:kotlin-$target:${Versions.mui}"
 
 object Deps {
 
@@ -64,24 +73,32 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("ch.qos.logback:logback-classic:1.2.11")
+                implementation("ch.qos.logback:logback-classic:${Versions.logback}")
                 implementation("io.ktor:ktor-server-core:${Versions.ktor}")
                 implementation("io.ktor:ktor-server-netty:${Versions.ktor}")
                 implementation("io.ktor:ktor-html-builder:${Versions.ktor}")
                 implementation("io.ktor:ktor-serialization:${Versions.ktor}")
-                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
-                implementation("com.vk.api:sdk:1.0.14")
-                implementation("org.openpnp:opencv:4.5.1-2")
+                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${Versions.htmlJvm}")
+                implementation("com.vk.api:sdk:${Versions.vk}")
+                implementation("org.openpnp:opencv:${Versions.opencv}")
             }
         }
         val jvmTest by getting
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:17.0.2-pre.290-kotlin-1.6.10")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:17.0.2-pre.290-kotlin-1.6.10")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-css:17.0.2-pre.290-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${Versions.react}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${Versions.react}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-css:${Versions.react}")
                 implementation("io.ktor:ktor-client-json:${Versions.ktor}")
                 implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
+
+                implementation(kotlinw("react"))
+                implementation(kotlinw("react-dom"))
+                implementation(kotlinw("react-router-dom"))
+
+                implementation(kotlinw("emotion"))
+                implementation(kotlinw("mui"))
+                implementation(kotlinw("mui-icons"))
             }
         }
         val jsTest by getting

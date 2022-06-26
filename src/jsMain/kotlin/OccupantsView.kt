@@ -1,30 +1,30 @@
 import com.occupantsearch.occupant.Occupant
-import csstype.BoxSizing
+import csstype.AlignItems
 import csstype.Display
-import csstype.FlexDirection
 import csstype.FlexWrap
 import csstype.JustifyContent
-import csstype.ObjectFit
-import csstype.TextAlign
+import csstype.Position
+import csstype.integer
 import csstype.pct
 import csstype.px
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import mui.icons.material.Search
+import mui.material.IconButton
+import mui.material.Input
+import mui.material.Paper
+import mui.system.sx
+import org.w3c.dom.HTMLInputElement
 import react.FC
 import react.Props
 import react.css.css
-import react.dom.html.InputType
-import react.dom.html.ReactHTML.a
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.img
-import react.dom.html.ReactHTML.input
+import react.dom.html.ReactHTML.form
 import react.useEffectOnce
 import react.useState
 
-private const val noImage =
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1200px-Placeholder_no_text.svg.png"
 private val scope = MainScope()
 private val client = Client()
 
@@ -45,62 +45,51 @@ val OccupantsView = FC<OccupantsListProps> { props ->
             occupants = client.getOccupants("", 0)
         }
     }
-    input {
+    val itemSize = 400
+    Paper {
         css {
-            margin = 5.px
             width = 100.pct
-            boxSizing = BoxSizing.borderBox
+            position = Position.fixed
+            zIndex = integer(100)
         }
-        type = InputType.text
-        value = name
-        onChange = { event ->
-            scope.launch {
-                page = 0
-                query = event.target.value
-                lastPage = false
-                occupants = client.getOccupants(event.target.value, page)
+        component = form
+        sx {
+            display = Display.flex
+            alignItems = AlignItems.center
+            width = 100.pct
+        }
+        Input {
+            css {
+                marginLeft = 10.px
+                width = 100.pct
+            }
+            placeholder = "Search"
+            value = name
+            onChange = { event ->
+                val value = (event.target as HTMLInputElement).value
+                scope.launch {
+                    page = 0
+                    query = value
+                    lastPage = false
+                    occupants = client.getOccupants(value, page)
+                }
+            }
+        }
+        IconButton {
+            Search {
             }
         }
     }
-    val itemSize = 400
     div {
         css {
-            id = "content"
+            paddingTop = 60.px
             display = Display.flex
             flexWrap = FlexWrap.wrap
+            justifyContent = JustifyContent.spaceEvenly
         }
-        occupants.forEach { occupant ->
-            a {
-                css {
-                    margin = 10.px
-                }
-                href = "https://vk.com/wall${occupant.postIds.first()}"
-                div {
-                    css {
-                        width = itemSize.px
-                        height = itemSize.px
-                        display = Display.flex
-                        flexDirection = FlexDirection.column
-                        justifyContent = JustifyContent.center
-                    }
-                    img {
-                        css {
-                            padding = 50.px
-                            maxWidth = 90.pct
-                            maxHeight = 90.pct
-                            objectFit = ObjectFit.contain
-                        }
-                        src = occupant.faceImageUrls.firstOrNull() ?: noImage
-                    }
-                    div {
-                        css {
-                            textAlign = TextAlign.center
-                            marginTop = (-50).px
-                        }
-                        +occupant.person.fullName()
-                    }
-                }
-            }
+        id = "content"
+        occupants.forEach {
+            OccupantCard { occupant = it }
         }
     }
     window.onscroll = {
