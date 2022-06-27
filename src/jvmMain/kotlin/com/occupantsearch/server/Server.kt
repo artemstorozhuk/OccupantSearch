@@ -1,25 +1,28 @@
 package com.occupantsearch.server
 
+import com.occupantsearch.koin.get
 import com.occupantsearch.occupant.OccupantController
+import com.occupantsearch.properties.getProperty
 import com.occupantsearch.resource.ResourceReader
 import io.ktor.application.call
 import io.ktor.http.ContentType
-import io.ktor.http.content.resources
-import io.ktor.http.content.static
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import org.koin.java.KoinJavaComponent.getKoin
 
-fun startServer() = embeddedServer(Netty, port = 8080, host = "localhost") {
+fun startServer() = embeddedServer(
+    factory = Netty,
+    host = getProperty("server", "host"),
+    port = getProperty("server", "port").toInt()
+) {
     installJson()
     installCors()
     installLog()
     installZip()
-    val indexHtml = getKoin().get<ResourceReader>().readResource("index.html")
+    val indexHtml = get<ResourceReader>().readResource("index.html")
     routing {
         get("/") {
             call.respondText(
@@ -29,15 +32,13 @@ fun startServer() = embeddedServer(Netty, port = 8080, host = "localhost") {
         }
         get("/occupants") {
             call.respond(
-                getKoin().get<OccupantController>()
+                get<OccupantController>()
                     .findOccupants(
                         query = context.parameters["query"] ?: "",
                         page = context.parameters["page"]?.toInt() ?: 0
                     )
             )
         }
-        static("/static") {
-            resources()
-        }
+        installStatic()
     }
 }.start(wait = true)
