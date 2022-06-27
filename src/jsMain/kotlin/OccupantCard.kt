@@ -1,4 +1,5 @@
 import com.occupantsearch.occupant.Occupant
+import csstype.ObjectFit
 import csstype.px
 import mui.material.Card
 import mui.material.CardActionArea
@@ -39,6 +40,7 @@ val OccupantCard = FC<OccupantCardProps> { props ->
                     image = props.occupant.faceImageUrls.firstOrNull() ?: noImage
                     sx {
                         maxHeight = 350.px
+                        objectFit = ObjectFit.contain
                     }
                 }
                 CardContent {
