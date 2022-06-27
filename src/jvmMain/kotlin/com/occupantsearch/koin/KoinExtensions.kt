@@ -6,16 +6,17 @@ import com.occupantsearch.image.ImageDownloader
 import com.occupantsearch.image.ImageFaceController
 import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.person.PersonTextSearcher
-import com.occupantsearch.text.TextBlockSplitter
 import com.occupantsearch.properties.PropertiesController
-import com.occupantsearch.update.UpdateController
 import com.occupantsearch.resource.ResourceReader
-import com.occupantsearch.vk.VkNewsfeedSearcher
+import com.occupantsearch.text.TextBlockSplitter
+import com.occupantsearch.update.UpdateController
 import com.occupantsearch.vk.PostController
+import com.occupantsearch.vk.VkNewsfeedSearcher
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.koin.java.KoinJavaComponent.getKoin
 
 fun initKoin() {
     startKoin {
@@ -37,3 +38,5 @@ fun initKoin() {
         }
     )
 }
+
+inline fun <reified T : Any> get() = getKoin().get<T>()
