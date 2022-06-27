@@ -19,11 +19,12 @@ external interface OccupantCardProps : Props {
     var occupant: Occupant
 }
 
+const val cardSize = 400
+
 private const val noImage =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1200px-Placeholder_no_text.svg.png"
 
 val OccupantCard = FC<OccupantCardProps> { props ->
-    val itemSize = 400
     a {
         css {
             margin = 10.px
@@ -31,15 +32,15 @@ val OccupantCard = FC<OccupantCardProps> { props ->
         href = "https://vk.com/wall${props.occupant.postIds.first()}"
         Card {
             sx {
-                width = itemSize.px
-                height = itemSize.px
+                width = cardSize.px
+                height = cardSize.px
             }
             CardActionArea {
                 CardMedia {
                     component = img
                     image = props.occupant.faceImageUrls.firstOrNull() ?: noImage
                     sx {
-                        maxHeight = 350.px
+                        maxHeight = (cardSize - 50).px
                         objectFit = ObjectFit.contain
                     }
                 }

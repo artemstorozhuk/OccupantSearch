@@ -45,7 +45,6 @@ val OccupantsView = FC<OccupantsListProps> { props ->
             occupants = client.getOccupants("", 0)
         }
     }
-    val itemSize = 400
     Paper {
         css {
             width = 100.pct
@@ -72,6 +71,7 @@ val OccupantsView = FC<OccupantsListProps> { props ->
                     query = value
                     lastPage = false
                     occupants = client.getOccupants(value, page)
+                    window.scrollTo(0.0, 0.0)
                 }
             }
         }
@@ -93,7 +93,7 @@ val OccupantsView = FC<OccupantsListProps> { props ->
         }
     }
     window.onscroll = {
-        if (!lastPage && isInBottom(itemSize)) {
+        if (!lastPage && isInBottom()) {
             scope.launch {
                 val nextPage = client.getOccupants(query, page + 1)
                 if (nextPage.isEmpty()) {
@@ -107,5 +107,5 @@ val OccupantsView = FC<OccupantsListProps> { props ->
     }
 }
 
-fun isInBottom(itemSize: Int) =
-    window.scrollY + itemSize + window.innerHeight > document.getElementById("content")!!.clientHeight
+fun isInBottom() =
+    window.scrollY + 5 * cardSize + window.innerHeight > document.getElementById("content")!!.clientHeight
