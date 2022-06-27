@@ -1,4 +1,5 @@
 import com.occupantsearch.occupant.Occupant
+import com.occupantsearch.vk.postUrl
 import csstype.ObjectFit
 import csstype.px
 import mui.material.Card
@@ -29,7 +30,7 @@ val OccupantCard = FC<OccupantCardProps> { props ->
         css {
             margin = 10.px
         }
-        href = "https://vk.com/wall${props.occupant.postIds.first()}"
+        href = props.occupant.postIds.first().postUrl
         Card {
             sx {
                 width = cardSize.px
