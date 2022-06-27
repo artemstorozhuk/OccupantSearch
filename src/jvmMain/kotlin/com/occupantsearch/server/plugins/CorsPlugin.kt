@@ -1,4 +1,4 @@
-package com.occupantsearch.server
+package com.occupantsearch.server.plugins
 
 import io.ktor.application.Application
 import io.ktor.application.install

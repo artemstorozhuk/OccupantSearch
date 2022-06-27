@@ -15,6 +15,4 @@ fun Int.secondsToMillis(): Long = toLong() * 1000
 
 fun measureDuration(lambda: () -> Unit) = measureTimeMillis(lambda).milliseconds
 
-fun Int.secondsToDay() = this / 60 / 60 / 24 * 60 * 60 * 24
-
-fun Int.secondsToDayFormat(): String = SimpleDateFormat("dd-MM-yyyy").format(secondsToMillis())
+fun Date.format() = SimpleDateFormat("dd-MM-yyyy").format(this)

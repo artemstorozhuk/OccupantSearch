@@ -1,6 +1,7 @@
 package com.occupantsearch.koin
 
 import com.occupantsearch.db.Database
+import com.occupantsearch.export.ExportController
 import com.occupantsearch.image.FaceDetector
 import com.occupantsearch.image.ImageDownloader
 import com.occupantsearch.image.ImageFaceController
@@ -8,6 +9,10 @@ import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.person.PersonTextSearcher
 import com.occupantsearch.properties.PropertiesController
 import com.occupantsearch.resource.ResourceReader
+import com.occupantsearch.server.Server
+import com.occupantsearch.server.routing.ExportResponder
+import com.occupantsearch.server.routing.IndexHtmlResponder
+import com.occupantsearch.server.routing.OccupantsResponder
 import com.occupantsearch.text.TextBlockSplitter
 import com.occupantsearch.update.UpdateController
 import com.occupantsearch.vk.PostController
@@ -35,6 +40,11 @@ fun initKoin() {
             singleOf(::PostController)
             singleOf(::PropertiesController)
             singleOf(::UpdateController)
+            singleOf(::ExportController)
+            singleOf(::ExportResponder)
+            singleOf(::IndexHtmlResponder)
+            singleOf(::OccupantsResponder)
+            singleOf(::Server)
         }
     )
 }

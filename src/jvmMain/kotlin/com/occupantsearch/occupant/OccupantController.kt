@@ -63,4 +63,6 @@ class OccupantController(
                 toIndex = minOf(it.size, (page + 1) * pageSize)
             )
         }
+
+    fun getAll() = occupantsReference.get()
 }
