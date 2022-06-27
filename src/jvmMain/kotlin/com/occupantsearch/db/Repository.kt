@@ -15,10 +15,11 @@ class Repository<T>(
     location: String
 ) {
     private val logger = LoggerFactory.getLogger(Repository::class.java)
-    private val root = File("$location${clazz.canonicalName}").also { it.mkdirs() }
+    private val root = File("$location${clazz.canonicalName}")
     private val data = ConcurrentHashMap<String, T>()
 
     fun load() {
+        root.mkdirs()
         val duration = measureDuration {
             data.putAll(Arrays.stream(root.listFiles()!!).parallel()
                 .map { it.nameWithoutExtension to it.readText().parseJson(clazz) }
