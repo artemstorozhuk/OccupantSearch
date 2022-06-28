@@ -1,3 +1,5 @@
+package com.occupantsearch.client
+
 import com.occupantsearch.export.Format
 import com.occupantsearch.occupant.Occupant
 import io.ktor.client.HttpClient

@@ -1,3 +1,6 @@
+package com.occupantsearch
+
+import com.occupantsearch.ui.OccupantsView
 import kotlinx.browser.document
 import react.create
 import react.dom.render

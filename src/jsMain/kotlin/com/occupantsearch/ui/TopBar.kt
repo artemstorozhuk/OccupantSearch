@@ -1,3 +1,5 @@
+package com.occupantsearch.ui
+
 import csstype.Position
 import csstype.integer
 import csstype.number

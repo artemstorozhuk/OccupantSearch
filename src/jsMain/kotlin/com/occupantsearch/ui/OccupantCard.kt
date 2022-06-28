@@ -1,3 +1,5 @@
+package com.occupantsearch.ui
+
 import com.occupantsearch.occupant.Occupant
 import com.occupantsearch.vk.postUrl
 import csstype.ObjectFit

@@ -1,3 +1,6 @@
+package com.occupantsearch.ui
+
+import com.occupantsearch.client.Client
 import com.occupantsearch.export.Format
 import com.occupantsearch.occupant.Occupant
 import csstype.Display

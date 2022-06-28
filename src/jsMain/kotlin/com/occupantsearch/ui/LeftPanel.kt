@@ -1,3 +1,5 @@
+package com.occupantsearch.ui
+
 import csstype.pct
 import csstype.px
 import mui.icons.material.FileDownload
