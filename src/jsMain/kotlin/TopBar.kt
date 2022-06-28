@@ -20,6 +20,7 @@ import react.css.css
 
 external interface TopBarProps : Props {
     var onSearch: (String) -> Unit
+    var onMenuClick: () -> Unit
 }
 
 val TopBar = FC<TopBarProps> { props ->
@@ -39,6 +40,9 @@ val TopBar = FC<TopBarProps> { props ->
                 IconButton {
                     size = Size.large
                     Menu {
+                    }
+                    onClick = {
+                        props.onMenuClick()
                     }
                 }
                 Input {

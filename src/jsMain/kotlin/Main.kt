@@ -10,5 +10,6 @@ fun main() {
         occupants = listOf()
         page = 0
         lastPage = false
+        leftPanelOpen = false
     }, container)
 }

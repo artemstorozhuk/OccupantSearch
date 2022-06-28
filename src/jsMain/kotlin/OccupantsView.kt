@@ -1,3 +1,4 @@
+import com.occupantsearch.export.Format
 import com.occupantsearch.occupant.Occupant
 import csstype.Display
 import csstype.FlexWrap
@@ -22,6 +23,7 @@ external interface OccupantsListProps : Props {
     var occupants: List<Occupant>
     var page: Int
     var lastPage: Boolean
+    var leftPanelOpen: Boolean
 }
 
 val OccupantsView = FC<OccupantsListProps> { props ->
@@ -29,6 +31,7 @@ val OccupantsView = FC<OccupantsListProps> { props ->
     var occupants by useState(props.occupants)
     var page by useState(props.page)
     var lastPage by useState(props.lastPage)
+    var leftPanelOpen by useState(props.leftPanelOpen)
 
     useEffectOnce {
         scope.launch {
@@ -45,6 +48,23 @@ val OccupantsView = FC<OccupantsListProps> { props ->
                 occupants = client.getOccupants(value, page)
                 window.scrollTo(0.0, 0.0)
             }
+        }
+        onMenuClick = {
+            leftPanelOpen = !leftPanelOpen
+        }
+    }
+    LeftPanel {
+        open = leftPanelOpen
+        onSearchClick = {
+            leftPanelOpen = false
+        }
+        onJsonClick = {
+            leftPanelOpen = false
+            client.export(Format.JSON)
+        }
+        onCsvClick = {
+            leftPanelOpen = false
+            client.export(Format.CSV)
         }
     }
     div {

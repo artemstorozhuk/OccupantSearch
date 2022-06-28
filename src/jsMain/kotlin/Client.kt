@@ -1,3 +1,4 @@
+import com.occupantsearch.export.Format
 import com.occupantsearch.occupant.Occupant
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
@@ -20,4 +21,6 @@ class Client {
             parameter("query", query)
             parameter("page", page)
         }
+
+    fun export(format: Format) = window.open("export?format=${format.value}")
 }
