@@ -1,5 +1,6 @@
 package com.occupantsearch.update
 
+import com.occupantsearch.analytics.AnalyticsController
 import com.occupantsearch.image.ImageFaceController
 import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.properties.PropertiesController
@@ -13,7 +14,8 @@ class UpdateController(
     props: PropertiesController,
     private val occupantController: OccupantController,
     private val postController: PostController,
-    private val imageFaceController: ImageFaceController
+    private val imageFaceController: ImageFaceController,
+    private val analyticsController: AnalyticsController
 ) {
     private val logger = LoggerFactory.getLogger(UpdateController::class.java)
     private val updateTime = props["server"]["update_time"]!!.toLong()
@@ -25,6 +27,7 @@ class UpdateController(
                     postController.downloadNewPosts()
                     occupantController.refresh()
                     imageFaceController.refresh()
+                    analyticsController.refresh()
                 }
                 logger.info("Updated state in $duration")
             }

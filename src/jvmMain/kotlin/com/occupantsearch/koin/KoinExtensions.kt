@@ -1,5 +1,6 @@
 package com.occupantsearch.koin
 
+import com.occupantsearch.analytics.AnalyticsController
 import com.occupantsearch.db.Database
 import com.occupantsearch.export.ExportController
 import com.occupantsearch.image.FaceDetector
@@ -10,6 +11,7 @@ import com.occupantsearch.person.PersonTextSearcher
 import com.occupantsearch.properties.PropertiesController
 import com.occupantsearch.resource.ResourceReader
 import com.occupantsearch.server.Server
+import com.occupantsearch.server.routing.AnalyticsResponder
 import com.occupantsearch.server.routing.ExportResponder
 import com.occupantsearch.server.routing.IndexHtmlResponder
 import com.occupantsearch.server.routing.OccupantsResponder
@@ -44,6 +46,8 @@ fun initKoin() {
             singleOf(::ExportResponder)
             singleOf(::IndexHtmlResponder)
             singleOf(::OccupantsResponder)
+            singleOf(::AnalyticsController)
+            singleOf(::AnalyticsResponder)
             singleOf(::Server)
         }
     )
