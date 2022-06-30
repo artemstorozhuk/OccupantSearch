@@ -24,5 +24,8 @@ class Client {
             parameter("page", page)
         }
 
+    suspend fun getAnalytics(): Map<Long, Long> =
+        jsonClient.get("$endpoint/analytics")
+
     fun export(format: Format) = window.open("export?format=${format.value}")
 }
