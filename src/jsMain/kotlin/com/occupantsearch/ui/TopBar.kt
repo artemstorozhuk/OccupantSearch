@@ -23,6 +23,7 @@ import react.css.css
 external interface TopBarProps : Props {
     var onSearch: (String) -> Unit
     var onMenuClick: () -> Unit
+    var showSearchInput: Boolean
 }
 
 val TopBar = FC<TopBarProps> { props ->
@@ -47,17 +48,19 @@ val TopBar = FC<TopBarProps> { props ->
                         props.onMenuClick()
                     }
                 }
-                Input {
-                    css {
-                        width = 100.pct
+                if (props.showSearchInput) {
+                    Input {
+                        css {
+                            width = 100.pct
+                        }
+                        placeholder = "Search…"
+                        onChange = { event ->
+                            props.onSearch((event.target as HTMLInputElement).value)
+                        }
                     }
-                    placeholder = "Search…"
-                    onChange = { event ->
-                        props.onSearch((event.target as HTMLInputElement).value)
-                    }
-                }
-                IconButton {
-                    Search {
+                    IconButton {
+                        Search {
+                        }
                     }
                 }
             }

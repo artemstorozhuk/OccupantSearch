@@ -3,38 +3,33 @@ package com.occupantsearch.ui
 import com.occupantsearch.client.Client
 import com.occupantsearch.export.Format
 import com.occupantsearch.occupant.Occupant
-import csstype.Display
-import csstype.FlexWrap
-import csstype.JustifyContent
-import csstype.px
-import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import react.FC
 import react.Props
-import react.css.css
-import react.dom.html.ReactHTML.div
 import react.useEffectOnce
 import react.useState
 
-private val scope = MainScope()
-private val client = Client()
+val scope = MainScope()
+val client = Client()
 
-external interface OccupantsListProps : Props {
+external interface RootPanelProps : Props {
     var query: String
     var occupants: List<Occupant>
     var page: Int
     var lastPage: Boolean
     var leftPanelOpen: Boolean
+    var visiblePanelType: PanelType
 }
 
-val OccupantsView = FC<OccupantsListProps> { props ->
+val RootPanel = FC<RootPanelProps> { props ->
     var query by useState(props.query)
     var occupants by useState(props.occupants)
     var page by useState(props.page)
     var lastPage by useState(props.lastPage)
     var leftPanelOpen by useState(props.leftPanelOpen)
+    var visiblePanel by useState(props.visiblePanelType)
 
     useEffectOnce {
         scope.launch {
@@ -52,14 +47,43 @@ val OccupantsView = FC<OccupantsListProps> { props ->
                 window.scrollTo(0.0, 0.0)
             }
         }
+        showSearchInput = visiblePanel == PanelType.OCCUPANTS_LIST
         onMenuClick = {
             leftPanelOpen = !leftPanelOpen
         }
     }
+
+    OccupantsList {
+        visible = visiblePanel == PanelType.OCCUPANTS_LIST
+        list = occupants
+        onScrollBottom = {
+            if (!lastPage) {
+                scope.launch {
+                    val nextPage = client.getOccupants(query, page + 1)
+                    if (nextPage.isEmpty()) {
+                        lastPage = true
+                    } else {
+                        page++
+                        occupants = occupants + nextPage
+                    }
+                }
+            }
+        }
+    }
+
+    AnalyticsChart {
+        visible = visiblePanel == PanelType.ANALYTICS_CHART
+    }
+
     LeftPanel {
         open = leftPanelOpen
         onSearchClick = {
             leftPanelOpen = false
+            visiblePanel = PanelType.OCCUPANTS_LIST
+        }
+        onChartClick = {
+            leftPanelOpen = false
+            visiblePanel = PanelType.ANALYTICS_CHART
         }
         onJsonClick = {
             leftPanelOpen = false
@@ -70,33 +94,4 @@ val OccupantsView = FC<OccupantsListProps> { props ->
             client.export(Format.CSV)
         }
     }
-    div {
-        css {
-            paddingTop = 60.px
-            display = Display.flex
-            flexWrap = FlexWrap.wrap
-            justifyContent = JustifyContent.spaceEvenly
-        }
-        id = "content"
-        occupants.forEach {
-            OccupantCard { occupant = it }
-        }
-    }
-
-    window.onscroll = {
-        if (!lastPage && isInBottom()) {
-            scope.launch {
-                val nextPage = client.getOccupants(query, page + 1)
-                if (nextPage.isEmpty()) {
-                    lastPage = true
-                } else {
-                    page++
-                    occupants = occupants + nextPage
-                }
-            }
-        }
-    }
 }
-
-fun isInBottom() =
-    window.scrollY + 5 * cardSize + window.innerHeight > document.getElementById("content")!!.clientHeight
