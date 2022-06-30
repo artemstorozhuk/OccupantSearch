@@ -19,6 +19,7 @@ class AnalyticsController(
             .parallel()
             .map { it.date.secondsToStartOfDay() }
             .collect(Collectors.groupingByConcurrent({ it }, Collectors.counting()))
+            .toSortedMap()
     )
 
     fun getPostsCountByDate() = postsCountByDateReference.get()
