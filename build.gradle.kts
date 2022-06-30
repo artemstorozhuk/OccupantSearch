@@ -99,6 +99,8 @@ kotlin {
                 implementation(kotlinw("emotion"))
                 implementation(kotlinw("mui"))
                 implementation(kotlinw("mui-icons"))
+
+                implementation(npm("chart.js", "3.8.0"))
             }
         }
         val jsTest by getting
