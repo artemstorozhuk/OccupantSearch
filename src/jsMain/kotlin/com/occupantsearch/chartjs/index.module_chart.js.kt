@@ -44,6 +44,8 @@ external val SubTitle: dynamic = definedExternally
 external class Chart {
     companion object {
         fun register(vararg elements: dynamic)
+
+        fun getChart(value: String): Chart?
     }
 
     constructor(context: String, options: ChartConfiguration)
