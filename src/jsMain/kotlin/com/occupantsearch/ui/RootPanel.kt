@@ -45,7 +45,7 @@ val RootPanel = FC<RootPanelProps> {
     var page by useState(0)
     var loading by useState(false)
     var foundCount by useState(0)
-    var x by useState(0)
+    var progress by useState(0)
 
     val hasMorePages = {
         (occupants.isEmpty() && foundCount == 0) || occupants.size < foundCount
@@ -109,7 +109,7 @@ val RootPanel = FC<RootPanelProps> {
                         }
                         LinearProgress {
                             variant = LinearProgressVariant.determinate
-                            value = (x * 100 / foundCount)
+                            value = (progress * 100 / foundCount)
                         }
                     }
                     Box {
@@ -123,7 +123,7 @@ val RootPanel = FC<RootPanelProps> {
                                 fontWeight = FontWeight.bold
                             }
                             variant = TypographyVariant.body2
-                            +"$x / $foundCount"
+                            +"$progress / $foundCount"
                         }
                     }
                 }
@@ -157,7 +157,7 @@ val RootPanel = FC<RootPanelProps> {
     }
 
     window.onscroll = {
-        x = getFirstVisibleChildIndex()
+        progress = getFirstVisibleChildIndex()
         if (isInBottom() && hasMorePages()) {
             load(searchQuery, page + 1, occupants)
         }
