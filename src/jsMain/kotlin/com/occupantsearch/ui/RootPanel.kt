@@ -3,14 +3,28 @@ package com.occupantsearch.ui
 import com.occupantsearch.client.Client
 import com.occupantsearch.export.Format
 import com.occupantsearch.occupant.Occupant
+import csstype.AlignItems
+import csstype.Color
 import csstype.Display
 import csstype.FlexWrap
+import csstype.FontWeight
 import csstype.JustifyContent
+import csstype.Position
+import csstype.TextAlign
+import csstype.pct
 import csstype.px
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import mui.material.Box
+import mui.material.LinearProgress
+import mui.material.LinearProgressVariant
+import mui.material.Typography
+import mui.material.styles.TypographyVariant
+import mui.system.sx
+import org.w3c.dom.Element
+import org.w3c.dom.asList
 import react.FC
 import react.Props
 import react.css.css
@@ -28,25 +42,24 @@ val RootPanel = FC<RootPanelProps> {
     var occupants by useState(listOf<Occupant>())
     var leftPanelOpen by useState(false)
     var visiblePanel by useState(PanelType.OCCUPANTS_LIST)
-    var lastPage by useState(false)
     var page by useState(0)
     var loading by useState(false)
+    var foundCount by useState(0)
+    var x by useState(0)
+
+    val hasMorePages = {
+        (occupants.isEmpty() && foundCount == 0) || occupants.size < foundCount
+    }
 
     val load = { query: String, index: Int, list: List<Occupant> ->
-        if (!loading && !lastPage) {
+        if (!loading) {
             loading = true
             searchQuery = query
             scope.launch {
-                val nextPage = client.getOccupants(query, index)
-                if (nextPage.isEmpty()) {
-                    lastPage = true
-                    page = index
-                    occupants = list
-                } else {
-                    lastPage = false
-                    page = index + 1
-                    occupants = list + nextPage
-                }
+                val response = client.getOccupants(query, index)
+                foundCount = response.foundCount
+                occupants = list + response.occupants
+                page = index
                 loading = false
             }
         }
@@ -77,16 +90,55 @@ val RootPanel = FC<RootPanelProps> {
             occupants.forEach {
                 OccupantCard { occupant = it }
             }
+            Box {
+                sx {
+                    width = 100.pct
+                    position = Position.fixed
+                    bottom = 0.px
+                    backgroundColor = Color("rgba(0, 0, 0, 0.5)")
+                }
+                Box {
+                    sx {
+                        paddingLeft = 20.px
+                        display = Display.flex
+                        alignItems = AlignItems.center
+                    }
+                    Box {
+                        sx {
+                            width = 100.pct
+                        }
+                        LinearProgress {
+                            variant = LinearProgressVariant.determinate
+                            value = (x * 100 / foundCount)
+                        }
+                    }
+                    Box {
+                        sx {
+                            width = 100.px
+                        }
+                        Typography {
+                            sx {
+                                textAlign = TextAlign.center
+                                color = Color("lightblue")
+                                fontWeight = FontWeight.bold
+                            }
+                            variant = TypographyVariant.body2
+                            +"$x / $foundCount"
+                        }
+                    }
+                }
+            }
         }
         PanelType.ANALYTICS_CHART -> AnalyticsChart {
             id = "chart"
         }
     }
 
+
     LeftPanel {
         open = leftPanelOpen
         onSearchClick = {
-            searchQuery = ""
+            load("", 0, listOf())
             leftPanelOpen = false
             visiblePanel = PanelType.OCCUPANTS_LIST
         }
@@ -105,10 +157,21 @@ val RootPanel = FC<RootPanelProps> {
     }
 
     window.onscroll = {
-        if (isInBottom()) {
-            load(searchQuery, page, occupants)
+        x = getFirstVisibleChildIndex()
+        if (isInBottom() && hasMorePages()) {
+            load(searchQuery, page + 1, occupants)
         }
     }
+}
+
+fun getFirstVisibleChildIndex() = document.getElementById("content")
+    ?.children
+    ?.asList()
+    ?.indexOfFirst { it.isVisible() }
+    ?: 0
+
+fun Element.isVisible(): Boolean {
+    return getBoundingClientRect().bottom >= 0
 }
 
 fun isInBottom() =

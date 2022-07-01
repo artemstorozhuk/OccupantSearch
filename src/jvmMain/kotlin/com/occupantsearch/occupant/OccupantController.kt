@@ -58,9 +58,12 @@ class OccupantController(
         .filter { it.person.matches(query) }
         .collect(Collectors.toList())
         .let {
-            it.subList(
-                fromIndex = minOf(it.size, page * pageSize),
-                toIndex = minOf(it.size, (page + 1) * pageSize)
+            OccupantsResponse(
+                occupants = it.subList(
+                    fromIndex = minOf(it.size, page * pageSize),
+                    toIndex = minOf(it.size, (page + 1) * pageSize)
+                ),
+                foundCount = it.size
             )
         }
 

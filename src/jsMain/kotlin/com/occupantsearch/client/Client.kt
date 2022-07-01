@@ -1,7 +1,7 @@
 package com.occupantsearch.client
 
 import com.occupantsearch.export.Format
-import com.occupantsearch.occupant.Occupant
+import com.occupantsearch.occupant.OccupantsResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -18,7 +18,7 @@ class Client {
         }
     }
 
-    suspend fun getOccupants(query: String, page: Int): List<Occupant> =
+    suspend fun getOccupants(query: String, page: Int): OccupantsResponse =
         jsonClient.get("$endpoint/occupants") {
             parameter("query", query)
             parameter("page", page)
