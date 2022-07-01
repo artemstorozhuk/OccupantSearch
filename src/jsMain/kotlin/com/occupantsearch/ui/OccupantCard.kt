@@ -14,6 +14,7 @@ import mui.system.sx
 import react.FC
 import react.Props
 import react.css.css
+import react.dom.html.AnchorTarget
 import react.dom.html.ReactHTML.a
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.img
@@ -32,6 +33,8 @@ val OccupantCard = FC<OccupantCardProps> { props ->
         css {
             margin = 10.px
         }
+        target = AnchorTarget._blank
+        rel = "noopener noreferrer"
         href = props.occupant.postIds.first().postUrl
         Card {
             sx {
