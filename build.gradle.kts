@@ -24,6 +24,7 @@ object Versions {
     const val htmlJvm = "0.7.2"
     const val vk = "1.0.14"
     const val opencv = "4.5.1-2"
+    const val chartjs = "3.8.0"
 }
 
 fun kotlinw(target: String): String =
@@ -100,7 +101,7 @@ kotlin {
                 implementation(kotlinw("mui"))
                 implementation(kotlinw("mui-icons"))
 
-                implementation(npm("chart.js", "3.8.0"))
+                implementation(npm("chart.js", Versions.chartjs))
             }
         }
         val jsTest by getting
