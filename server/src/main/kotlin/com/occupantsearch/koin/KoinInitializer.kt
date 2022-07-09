@@ -15,6 +15,7 @@ import com.occupantsearch.server.Server
 import com.occupantsearch.server.routing.AnalyticsResponder
 import com.occupantsearch.server.routing.ExportResponder
 import com.occupantsearch.server.routing.IndexHtmlResponder
+import com.occupantsearch.server.routing.OccupantResponder
 import com.occupantsearch.server.routing.OccupantsResponder
 import com.occupantsearch.text.TextBlockSplitter
 import com.occupantsearch.update.UpdateController
@@ -49,6 +50,7 @@ fun initKoin(): Koin {
             singleOf(::AnalyticsController)
             singleOf(::AnalyticsResponder)
             singleOf(::AppArgsController)
+            singleOf(::OccupantResponder)
             singleOf(::Server)
         }
     )

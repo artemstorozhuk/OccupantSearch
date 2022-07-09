@@ -5,6 +5,7 @@ import com.occupantsearch.image.ImageFaceController
 import com.occupantsearch.person.PersonTextSearcher
 import com.occupantsearch.properties.PropertiesController
 import com.occupantsearch.time.measureDuration
+import com.occupantsearch.vk.toDto
 import com.occupantsearch.vk.uniqueId
 import com.vk.api.sdk.objects.wall.WallpostFull
 import org.koin.core.component.KoinComponent
@@ -23,6 +24,7 @@ class OccupantController(
     private val comparator = compareBy<Occupant> { it.person.firstname }.thenBy { it.person.lastname }
     private val occupantsReference = AtomicReference<List<Occupant>>()
     private val pageSize = props["server"]["page_size"]!!.toInt()
+    private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>()
 
     fun refresh() {
         val duration = measureDuration {
@@ -47,9 +49,19 @@ class OccupantController(
                 }
                 .sorted(comparator)
                 .collect(Collectors.toList())
-                .let { occupantsReference.set(it) }
+                .let { list ->
+                    occupantsReference.set(list)
+                    nameToOccupantReference.set(list.associateBy { it.person.fullName })
+                }
         }
         logger.info("Occupants refreshed in $duration")
+    }
+
+    fun findPosts(name: String) = nameToOccupantReference.get()[name]?.let { occupant ->
+        occupant.postIds
+            .map { postsRepository[it] }
+            .filterNotNull()
+            .map { it.toDto() }
     }
 
     fun findOccupants(query: String, page: Int) = occupantsReference.get()
@@ -57,13 +69,13 @@ class OccupantController(
         .parallel()
         .filter { it.person.matches(query) }
         .collect(Collectors.toList())
-        .let {
-            OccupantsResponse(
-                occupants = it.subList(
-                    fromIndex = minOf(it.size, page * pageSize),
-                    toIndex = minOf(it.size, (page + 1) * pageSize)
-                ),
-                foundCount = it.size
+        .let { list ->
+            OccupantsDto(
+                occupants = list.subList(
+                    fromIndex = minOf(list.size, page * pageSize),
+                    toIndex = minOf(list.size, (page + 1) * pageSize)
+                ).map { o -> o.toDto() },
+                foundCount = list.size
             )
         }
 

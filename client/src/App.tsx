@@ -1,8 +1,10 @@
-import { Component, createRef } from 'react'
-import AnalyticsChart from './components/AnalyticsChart'
-import MenuDrawer, { MenuDrawerOption } from './components/MenuDrawer'
-import NavigationBar, { NavigationBarType } from './components/NavigationBar'
-import OccupantsList from './components/OccupantsList'
+import { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AnalyticsComponent } from './components/analytics/AnalyticsComponent';
+
+import { MenuDrawerOption } from './components/menu/MenuDrawer';
+import { OccupantComponent } from './components/occupant/OccupantComponent';
+import { OccupantSearchComponent } from './components/search/OccupantSearchComponent';
 
 interface AppState {
   option: MenuDrawerOption
@@ -14,43 +16,15 @@ export default class App extends Component<{}, AppState> {
   }
 
   render() {
-    const menuDrawer = createRef<MenuDrawer>()
-    const occupantsList = createRef<OccupantsList>()
-    const navigationBar = createRef<NavigationBar>()
     return (
       <>
-        <NavigationBar
-          ref={navigationBar}
-          onSearchInputChange={(text: string) => occupantsList.current?.setQuery(text)}
-          onMenuClick={() => menuDrawer.current?.setState({ open: true })}
-        />
-        <MenuDrawer
-          ref={menuDrawer}
-          onOptionSelected={option => {
-            this.setState({ option: option })
-            switch (option) {
-              case MenuDrawerOption.SEARCH:
-                navigationBar?.current?.setState({ type: NavigationBarType.SEARCH })
-                break;
-              case MenuDrawerOption.ANALYTICS:
-                navigationBar?.current?.setState({ type: NavigationBarType.EMPTY })
-                break;
-            }
-          }}
-        />
-        <div
-          style={{
-            marginTop: '60px'
-          }}>
-          {this.state.option === MenuDrawerOption.SEARCH &&
-            <OccupantsList
-              ref={occupantsList}
-            />
-          }
-          {this.state.option === MenuDrawerOption.ANALYTICS &&
-            <AnalyticsChart />
-          }
-        </div>
+        <Router>
+          <Routes>
+            <Route path='/' element={<OccupantSearchComponent />} />
+            <Route path='/occupant/:name' element={<OccupantComponent />} />
+            <Route path='/analytics' element={<AnalyticsComponent />} />
+          </Routes>
+        </Router>
       </>
     )
   }

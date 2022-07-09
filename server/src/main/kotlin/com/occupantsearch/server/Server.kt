@@ -7,6 +7,7 @@ import com.occupantsearch.server.plugins.installZip
 import com.occupantsearch.server.routing.AnalyticsResponder
 import com.occupantsearch.server.routing.ExportResponder
 import com.occupantsearch.server.routing.IndexHtmlResponder
+import com.occupantsearch.server.routing.OccupantResponder
 import com.occupantsearch.server.routing.OccupantsResponder
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -17,6 +18,7 @@ import org.koin.core.component.KoinComponent
 class Server(
     private val indexHtmlResponder: IndexHtmlResponder,
     private val occupantsResponder: OccupantsResponder,
+    private val occupantResponder: OccupantResponder,
     private val exportResponder: ExportResponder,
     private val analyticsResponder: AnalyticsResponder,
     private val appArgsController: AppArgsController
@@ -33,6 +35,7 @@ class Server(
         routing {
             get("/") { indexHtmlResponder.respond(this) }
             get("/occupants") { occupantsResponder.respond(this) }
+            get("/occupant/{name}") { occupantResponder.respond(this) }
             get("/export") { exportResponder.respond(this) }
             get("/analytics") { analyticsResponder.respond(this) }
             installStatic()

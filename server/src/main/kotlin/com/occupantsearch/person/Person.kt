@@ -1,8 +1,5 @@
 package com.occupantsearch.person
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Person(
     val firstname: String,
     val lastname: String,
@@ -13,5 +10,5 @@ data class Person(
                 lastname.startsWith(prefix = it, ignoreCase = true)
         }
 
-    fun fullName() = "$firstname $lastname"
+    val fullName get() = "$firstname $lastname"
 }

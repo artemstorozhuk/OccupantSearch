@@ -3,7 +3,7 @@ package com.occupantsearch.occupant
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OccupantsResponse(
-    val occupants: List<Occupant>,
+data class OccupantsDto(
+    val occupants: List<OccupantDto>,
     val foundCount: Int
 )

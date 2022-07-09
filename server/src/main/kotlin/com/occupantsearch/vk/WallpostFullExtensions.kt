@@ -13,3 +13,11 @@ fun WallpostFull.getImageUris(): List<URI> = attachments
     ?: listOf()
 
 fun WallpostFull.getImageId(uri: URI) = "${uniqueId}_${File(uri.path).name}"
+
+fun WallpostFull.toDto() = PostDto(
+    postId = uniqueId,
+    text = text,
+    imageUrls = getImageUris().map { it.toString() },
+    views = views?.count,
+    date = date
+)
