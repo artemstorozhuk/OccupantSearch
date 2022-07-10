@@ -12,6 +12,7 @@ import com.occupantsearch.server.routing.OccupantsResponder
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.get
+import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import org.koin.core.component.KoinComponent
 
@@ -34,10 +35,14 @@ class Server(
         installZip()
         routing {
             get("/") { indexHtmlResponder.respond(this) }
-            get("/occupants") { occupantsResponder.respond(this) }
-            get("/occupant/{name}") { occupantResponder.respond(this) }
-            get("/export") { exportResponder.respond(this) }
-            get("/analytics") { analyticsResponder.respond(this) }
+            route("api") {
+                route("v1") {
+                    get("occupants") { occupantsResponder.respond(this) }
+                    get("occupant/{name}") { occupantResponder.respond(this) }
+                    get("export") { exportResponder.respond(this) }
+                    get("analytics") { analyticsResponder.respond(this) }
+                }
+            }
             installStatic()
         }
     }.start(wait = true)
