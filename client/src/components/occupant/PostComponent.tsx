@@ -15,7 +15,7 @@ export function PostComponent(props: PostComponentProps) {
         sx={{
             margin: 1,
             width: 400,
-            height: 500
+            maxHeight: 500
         }}
         style={{
             objectFit: 'contain',
