@@ -59,8 +59,7 @@ class OccupantController(
 
     fun findPosts(name: String) = nameToOccupantReference.get()[name]?.let { occupant ->
         occupant.postIds
-            .map { postsRepository[it] }
-            .filterNotNull()
+            .mapNotNull { postsRepository[it] }
             .map { it.toDto() }
     }
 
