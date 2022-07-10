@@ -2,7 +2,7 @@ import OccupantsResponse from '../model/OccupantsResponse'
 import Post from '../model/Post'
 import { ExportFormat } from './ExportFormat'
 
-const apiUrl = process.env.NODE_ENV === 'production' ? 'api/v1' : 'http://localhost:8080/api/v1'
+const apiUrl = process.env.NODE_ENV === 'production' ? `${window.location.origin}/api/v1` : 'http://localhost:8080/api/v1'
 
 export function download(format: ExportFormat) {
     window.open(`${apiUrl}/export?format=${format}`)
