@@ -14,6 +14,7 @@ object Versions {
     const val vk = "1.0.14"
     const val opencv = "4.5.1-2"
     const val argparser = "2.0.7"
+    const val junit = "1.7.0"
 }
 
 dependencies {
@@ -33,7 +34,7 @@ dependencies {
     implementation("org.openpnp:opencv:${Versions.opencv}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
     testImplementation("io.ktor:ktor-server-tests-jvm:${Versions.ktor}")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.junit}")
 }
 
 application {
