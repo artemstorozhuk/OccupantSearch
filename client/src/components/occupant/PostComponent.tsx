@@ -60,6 +60,7 @@ export function PostComponent(props: PostComponentProps) {
             </CardActions>
             <CardContent>
                 <Typography
+                    whiteSpace='pre-wrap'
                     variant='body2'
                     color='text.secondary'>
                     {props.post.text}
