@@ -25,6 +25,7 @@ dependencies {
     implementation("io.ktor:ktor-server-cors:${Versions.ktor}")
     implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}")
     implementation("io.ktor:ktor-server-call-logging:${Versions.ktor}")
+    implementation("io.ktor:ktor-server-status-pages:${Versions.ktor}")
     implementation("io.ktor:ktor-html-builder:${Versions.htmlBuilder}")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${Versions.htmlJvm}")
     implementation("com.xenomachina:kotlin-argparser:${Versions.argparser}")
@@ -56,6 +57,6 @@ tasks.register<Exec>("npmBuild") {
     }
 }
 
-tasks.named("jar") {
-    dependsOn(":server:npmBuild")
-}
+//tasks.named("jar") {
+//    dependsOn(":server:npmBuild")
+//}

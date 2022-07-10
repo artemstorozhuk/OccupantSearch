@@ -3,6 +3,7 @@ package com.occupantsearch.server
 import com.occupantsearch.args.AppArgsController
 import com.occupantsearch.server.plugins.installCors
 import com.occupantsearch.server.plugins.installJson
+import com.occupantsearch.server.plugins.installStatusPage
 import com.occupantsearch.server.plugins.installZip
 import com.occupantsearch.server.routing.AnalyticsResponder
 import com.occupantsearch.server.routing.ExportResponder
@@ -33,6 +34,7 @@ class Server(
             installCors()
         }
         installZip()
+        installStatusPage()
         routing {
             get("/") { indexHtmlResponder.respond(this) }
             route("api") {
