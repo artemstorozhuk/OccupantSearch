@@ -26,7 +26,9 @@ export function PostComponent(props: PostComponentProps) {
                     props.post.imageUrls.map((item, i) =>
                         <CardActionArea
                             key={i}
-                            href={url}>
+                            href={url}
+                            target='_blank'
+                            rel='noopener noreferrer'>
                             <CardMedia
                                 component='img'
                                 height='200'
@@ -39,7 +41,9 @@ export function PostComponent(props: PostComponentProps) {
         }
 
         <CardActionArea
-            href={url}>
+            href={url}
+            target='_blank'
+            rel='noopener noreferrer'>
             <CardActions>
                 {props.post.views != null &&
                     <IconButton>
