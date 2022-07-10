@@ -1,11 +1,14 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { Component, ReactNode } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getOccupantPosts } from '../../client/Client';
 import Post from '../../model/Post';
 import { PostComponent } from './PostComponent';
 
 export interface OccupantComponentProps {
-    name: string
+    name: string,
+    onBackClick: () => void
 }
 
 export interface OccupantComponentState {
@@ -14,7 +17,10 @@ export interface OccupantComponentState {
 
 export function OccupantComponent() {
     const { name } = useParams();
-    return <OccupantComponentWrapper name={name!!} />
+    const navigate = useNavigate();
+    return <OccupantComponentWrapper
+        name={name!!}
+        onBackClick={() => navigate(-1)} />
 }
 
 class OccupantComponentWrapper extends Component<OccupantComponentProps, OccupantComponentState> {
@@ -29,19 +35,42 @@ class OccupantComponentWrapper extends Component<OccupantComponentProps, Occupan
     }
 
     render(): ReactNode {
-        return <div
-            style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-evenly',
-            }}>
-            {
-                this.state.posts.map((post, i) =>
-                    <PostComponent
-                        key={i}
-                        post={post} />
-                )
-            }
-        </div>
+        return <>
+            <AppBar position='fixed'>
+                <Toolbar>
+                    <IconButton
+                        size='large'
+                        edge='start'
+                        color='inherit'
+                        aria-label='menu'
+                        sx={{ mr: 2 }}
+                        onClick={() => this.props.onBackClick()}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                    <Typography
+                        variant='h6'
+                        component='div'
+
+                        sx={{ flexGrow: 1 }}>
+                        {this.props.name}
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <div
+                style={{
+                    marginTop: '60px',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-evenly',
+                }}>
+                {
+                    this.state.posts.map((post, i) =>
+                        <PostComponent
+                            key={i}
+                            post={post} />
+                    )
+                }
+            </div>
+        </>
     }
 }
