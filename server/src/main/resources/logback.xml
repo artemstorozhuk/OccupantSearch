@@ -10,4 +10,5 @@
     <logger name="org.eclipse.jetty" level="INFO"/>
     <logger name="io.netty" level="INFO"/>
     <logger name="com.vk.api.sdk.httpclient.HttpTransportClient" level="OFF"/>
+    <logger name="com.vk.api.sdk.client.ApiRequest" level="OFF"/>
 </configuration>

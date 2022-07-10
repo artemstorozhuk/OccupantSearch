@@ -6,6 +6,7 @@ import com.occupantsearch.time.millisToSeconds
 import com.occupantsearch.time.parseDate
 import com.vk.api.sdk.client.VkApiClient
 import com.vk.api.sdk.client.actors.UserActor
+import com.vk.api.sdk.exceptions.ApiTooManyException
 import com.vk.api.sdk.httpclient.HttpTransportClient
 import com.vk.api.sdk.objects.wall.WallpostFull
 import org.koin.core.component.KoinComponent
@@ -40,7 +41,11 @@ class VkNewsfeedSearcher(
                         .items
                 )
             }, onError = {
-                logger.info(it.message, it)
+                if (it is ApiTooManyException) {
+                    logger.info(it.message)
+                } else {
+                    logger.info(it.message, it)
+                }
                 true
             })
         }
