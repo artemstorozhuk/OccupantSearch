@@ -50,7 +50,6 @@ class OccupantComponentWrapper extends Component<OccupantComponentProps, Occupan
                     <Typography
                         variant='h6'
                         component='div'
-
                         sx={{ flexGrow: 1 }}>
                         {this.props.name}
                     </Typography>
