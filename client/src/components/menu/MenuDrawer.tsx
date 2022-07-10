@@ -1,4 +1,5 @@
-import { FileDownload, Search, ShowChart } from '@mui/icons-material'
+import { FileDownload, GitHub, Search, ShowChart } from '@mui/icons-material'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
@@ -6,10 +7,10 @@ import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import { styled } from '@mui/material/styles'
 import { Component } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { download } from '../../client/Client'
 import { ExportFormat } from '../../client/ExportFormat'
 import MenuDrawerItem from './MenuDrawerItem'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 const drawerWidth = 240
 
@@ -125,6 +126,25 @@ export class MenuDrawer extends Component<MenuDrawerProps, MenuDrawerState> {
                         onClick={() => {
                             this.setState({ open: false })
                             download(ExportFormat.CSV)
+                        }}
+                    />
+                    <Divider />
+                    <MenuDrawerItem
+                        itemKey='donate'
+                        text='Donate'
+                        icon={<AttachMoneyIcon />}
+                        onClick={() => {
+                            this.setState({ open: false })
+                            window.open('https://war.ukraine.ua/donate/')
+                        }}
+                    />
+                    <MenuDrawerItem
+                        itemKey='github'
+                        text='Github Repo'
+                        icon={<GitHub />}
+                        onClick={() => {
+                            this.setState({ open: false })
+                            window.open('https://github.com/artemstorozhuk/OccupantSearch/')
                         }}
                     />
                 </List>
