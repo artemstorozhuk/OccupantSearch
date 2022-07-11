@@ -10,11 +10,11 @@ import java.util.stream.Collectors
 class AnalyticsController(
     database: Database
 ) : KoinComponent {
-    private val postRepository = database[WallpostFull::class.java]
-    private val postsCountByDateReference = AtomicReference<Map<Long, Long>>()
+    private val postsRepository = database[WallpostFull::class.java]
+    private val postsCountByDateReference = AtomicReference<Map<Long, Long>>(emptyMap())
 
     fun refresh() = postsCountByDateReference.set(
-        postRepository.getAll().values
+        postsRepository.getAll().values
             .stream()
             .parallel()
             .map { it.date.secondsToStartOfDay() }
@@ -22,5 +22,5 @@ class AnalyticsController(
             .toSortedMap()
     )
 
-    fun getPostsCountByDate() = postsCountByDateReference.get()
+    fun getPostsCountByDate(): Map<Long, Long> = postsCountByDateReference.get()
 }

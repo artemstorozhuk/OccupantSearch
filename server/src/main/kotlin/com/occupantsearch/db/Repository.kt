@@ -20,14 +20,13 @@ class Repository<T>(
 
     fun load() {
         root.mkdirs()
-        val duration = measureDuration {
+        measureDuration {
             data.putAll(Arrays.stream(root.listFiles()!!).parallel()
                 .map { it.nameWithoutExtension to it.readText().parseJson(clazz) }
                 .filter { it.second != null }
                 .toMap()
             )
-        }
-        logger.info("Repository ${clazz.canonicalName} loaded in $duration")
+        }.let { duration -> logger.info("Repository ${clazz.canonicalName} loaded in $duration") }
     }
 
     operator fun set(key: String, value: T) {

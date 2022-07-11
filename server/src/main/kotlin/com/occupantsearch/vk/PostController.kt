@@ -14,7 +14,7 @@ class PostController(
     private val repository = database[WallpostFull::class.java]
     private val latestPostDate = AtomicReference<Date>(calculateLatestPostDate())
 
-    fun getLatestPostDate() = latestPostDate.get()
+    fun getLatestPostDate(): Date = latestPostDate.get()
 
     fun calculateLatestPostDate() = repository.getAll().values
         .maxOfOrNull { it.date }

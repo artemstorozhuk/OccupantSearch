@@ -20,17 +20,12 @@ class UpdateController(
     private val logger = LoggerFactory.getLogger(UpdateController::class.java)
     private val updateTime = props["server"]["update_time"]!!.toLong()
 
-    fun start() {
-        Timer().scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                val duration = measureDuration {
-                    postController.downloadNewPosts()
-                    occupantController.refresh()
-                    imageFaceController.refresh()
-                    analyticsController.refresh()
-                }
-                logger.info("Updated state in $duration")
-            }
-        }, 0, updateTime)
-    }
+    fun start() = Timer().scheduleAtFixedRate(object : TimerTask() {
+        override fun run() = measureDuration {
+            postController.downloadNewPosts()
+            occupantController.refresh()
+            imageFaceController.refresh()
+            analyticsController.refresh()
+        }.let { duration -> logger.info("Updated state in $duration") }
+    }, 0, updateTime)
 }
