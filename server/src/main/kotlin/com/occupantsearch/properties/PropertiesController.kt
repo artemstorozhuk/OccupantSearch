@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap
 class PropertiesController(
     private val resourceReader: ResourceReader
 ) {
-    private val files = ConcurrentHashMap<String, Map<String, String>>()
+    private val files = ConcurrentHashMap<String, Map<String, String>>(emptyMap())
 
     operator fun get(file: String): Map<String, String> =
         files.computeIfAbsent(file) {
