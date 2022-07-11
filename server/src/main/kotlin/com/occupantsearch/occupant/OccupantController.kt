@@ -31,7 +31,7 @@ class OccupantController(
             .values
             .stream()
             .parallel()
-            .filter { !postFilter.filter(it) }
+            .filter { postFilter.filter(it) }
             .map { personTextSearcher.search(it.text) to it }
             .filter { it.first.isNotEmpty() }
             .flatMap { pair -> pair.first.map { it to pair.second }.stream() }
