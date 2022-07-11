@@ -8,6 +8,7 @@ import com.occupantsearch.image.FaceDetector
 import com.occupantsearch.image.ImageDownloader
 import com.occupantsearch.image.ImageFaceController
 import com.occupantsearch.occupant.OccupantController
+import com.occupantsearch.occupant.PostFilter
 import com.occupantsearch.person.PersonTextSearcher
 import com.occupantsearch.properties.PropertiesController
 import com.occupantsearch.resource.ResourceReader
@@ -51,6 +52,7 @@ fun initKoin(): Koin {
             singleOf(::AnalyticsResponder)
             singleOf(::AppArgsController)
             singleOf(::OccupantResponder)
+            singleOf(::PostFilter)
             singleOf(::Server)
         }
     )
