@@ -24,10 +24,10 @@ import {
     Tooltip
 } from 'chart.js'
 import zoomPlugin from 'chartjs-plugin-zoom'
-import moment from 'moment'
 import { Component } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { getAnalytics } from '../../client/Client'
+import { formatDate } from '../../extensions/Date'
 
 ChartJS.register(
     ArcElement,
@@ -90,7 +90,7 @@ export default class AnalyticsChart extends Component {
     render() {
         const values = Object.values(this.state.data)
         const max = Math.max(...values)
-        const labels = Object.keys(this.state.data).map(this.toDateString)
+        const labels = Object.keys(this.state.data).map(x => formatDate(Number(x)))
         const bgColors = values.map(x => this.toBgColor(x, max))
         const colors = values.map(x => this.toColor(x, max))
 
@@ -121,9 +121,5 @@ export default class AnalyticsChart extends Component {
 
     percent(value: number, max: number) {
         return 100 - value * 100 / max
-    }
-
-    toDateString(x: string) {
-        return moment(new Date(Number(x))).format('DD-MM-YYYY')
     }
 }
