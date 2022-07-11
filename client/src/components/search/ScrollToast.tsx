@@ -23,7 +23,8 @@ export default class ScrollToast extends Component<{}, ScrollToastState> {
                             position: 'fixed',
                             width: '100%',
                             display: 'flex',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            marginTop: '10px'
                         }}>
                         <Chip
                             variant='filled'
@@ -46,7 +47,7 @@ export default class ScrollToast extends Component<{}, ScrollToastState> {
         this.setState({
             open: true,
             text: text,
-            timeout: setTimeout(() => this.setState({ open: false, }), 1000),
+            timeout: setTimeout(() => this.setState({ open: false, }), 2000),
         })
     }
 

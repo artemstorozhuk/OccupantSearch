@@ -1,8 +1,8 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
-import moment from 'moment';
 import Carousel from 'react-material-ui-carousel';
+import { formatDate } from '../../extensions/Date';
 import Post from '../../model/Post';
 
 export interface PostComponentProps {
@@ -16,9 +16,6 @@ export function PostComponent(props: PostComponentProps) {
             margin: 1,
             width: 400,
             maxHeight: 500
-        }}
-        style={{
-            objectFit: 'contain',
         }}>
         {props.post.imageUrls.length > 0 &&
             <Carousel>
@@ -33,6 +30,9 @@ export function PostComponent(props: PostComponentProps) {
                                 component='img'
                                 height='200'
                                 image={item}
+                                style={{
+                                    objectFit: 'contain',
+                                }}
                             />
                         </CardActionArea>
                     )
@@ -54,7 +54,7 @@ export function PostComponent(props: PostComponentProps) {
                 {props.post.date != null &&
                     <IconButton>
                         <CalendarMonthIcon />
-                        <div>{moment(new Date(Number(props.post.date * 1000))).format('DD-MM-YYYY')}</div>
+                        <div>{formatDate(props.post.date * 1000)}</div>
                     </IconButton>
                 }
             </CardActions>

@@ -1,5 +1,6 @@
 import { Component, createRef } from 'react'
 import { getOccupants } from '../../client/Client'
+import { formatDate } from '../../extensions/Date'
 import Occupant from '../../model/Occupant'
 import OccupantsResponse from '../../model/OccupantsResponse'
 import OccupantCard from './OccupantCard'
@@ -30,7 +31,7 @@ export default class OccupantsList extends Component<{}, OccupantsListState> {
         if (!this.state.loading &&
             this.state.occupants.length < this.state.foundCount &&
             this.root?.current != null &&
-            window.scrollY + 2 * window.innerHeight > this.root.current.clientHeight) {
+            window.scrollY + 4 * window.innerHeight > this.root.current.clientHeight) {
             this.load(this.state.query, this.state.page, this.state.occupants)
         }
     }
@@ -89,7 +90,9 @@ export default class OccupantsList extends Component<{}, OccupantsListState> {
         if (this.root.current != null) {
             for (var i = 0; i < this.root.current.children.length; i++) {
                 if (this.root.current.children[i].getBoundingClientRect().bottom >= 0) {
-                    this.scrollToast.current?.show(`${i + 1} / ${count}`)
+                    const progress = `${i + 1} / ${count}`
+                    const date = formatDate(this.state.occupants[i].date * 1000)
+                    this.scrollToast.current?.show(date)
                     break
                 }
             }
