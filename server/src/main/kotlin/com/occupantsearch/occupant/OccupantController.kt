@@ -17,45 +17,44 @@ class OccupantController(
     props: PropertiesController,
     database: Database,
     private val personTextSearcher: PersonTextSearcher,
-    private val imageFaceController: ImageFaceController
+    private val imageFaceController: ImageFaceController,
+    private val postFilter: PostFilter,
 ) : KoinComponent {
     private val logger = LoggerFactory.getLogger(OccupantController::class.java)
     private val postsRepository = database[WallpostFull::class.java]
-    private val comparator = compareBy<Occupant> { it.person.firstname }.thenBy { it.person.lastname }
-    private val occupantsReference = AtomicReference<List<Occupant>>()
+    private val occupantsReference = AtomicReference<List<Occupant>>(emptyList())
     private val pageSize = props["server"]["page_size"]!!.toInt()
-    private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>()
+    private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>(emptyMap())
 
-    fun refresh() {
-        val duration = measureDuration {
-            postsRepository.getAll()
-                .values
-                .stream()
-                .parallel()
-                .map { personTextSearcher.search(it.text) to it }
-                .filter { it.first.isNotEmpty() }
-                .flatMap { pair -> pair.first.map { it to pair.second }.stream() }
-                .collect(Collectors.groupingByConcurrent { it.first })
-                .entries
-                .stream()
-                .parallel()
-                .map { entry -> entry.key to entry.value.map { it.second } }
-                .map { entry ->
-                    Occupant(
-                        person = entry.first,
-                        postIds = entry.second.map { it.uniqueId },
-                        faceImageUrls = entry.second.map { imageFaceController[it] }.flatten()
-                    )
-                }
-                .sorted(comparator)
-                .collect(Collectors.toList())
-                .let { list ->
-                    occupantsReference.set(list)
-                    nameToOccupantReference.set(list.associateBy { it.person.fullName })
-                }
-        }
-        logger.info("Occupants refreshed in $duration")
-    }
+    fun refresh() = measureDuration {
+        postsRepository.getAll()
+            .values
+            .stream()
+            .parallel()
+            .filter { !postFilter.filter(it) }
+            .map { personTextSearcher.search(it.text) to it }
+            .filter { it.first.isNotEmpty() }
+            .flatMap { pair -> pair.first.map { it to pair.second }.stream() }
+            .collect(Collectors.groupingByConcurrent { it.first })
+            .entries
+            .stream()
+            .parallel()
+            .map { entry -> entry.key to entry.value.map { it.second } }
+            .map { entry ->
+                Occupant(
+                    person = entry.first,
+                    postIds = entry.second.map { it.uniqueId },
+                    faceImageUrls = entry.second.map { imageFaceController[it] }.flatten(),
+                    date = entry.second.minBy { it.date }.date
+                )
+            }
+            .sorted { a, b -> b.date - a.date }
+            .collect(Collectors.toList())
+            .let { list ->
+                occupantsReference.set(list)
+                nameToOccupantReference.set(list.associateBy { it.person.fullName })
+            }
+    }.let { duration -> logger.info("Occupants refreshed in $duration") }
 
     fun findPosts(name: String) = nameToOccupantReference.get()[name]?.let { occupant ->
         occupant.postIds
@@ -78,5 +77,5 @@ class OccupantController(
             )
         }
 
-    fun getAll() = occupantsReference.get()
+    fun getAll(): List<Occupant> = occupantsReference.get()
 }
