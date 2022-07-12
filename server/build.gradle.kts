@@ -57,6 +57,6 @@ tasks.register<Exec>("npmBuild") {
     }
 }
 
-//tasks.named("jar") {
-//    dependsOn(":server:npmBuild")
-//}
+tasks.named("processResources") {
+    dependsOn(":server:npmBuild")
+}
