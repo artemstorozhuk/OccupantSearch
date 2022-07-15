@@ -48,15 +48,25 @@ tasks.register<JavaExec>("devRun") {
     classpath = sourceSets["main"].runtimeClasspath
 }
 
-tasks.register<Exec>("npmBuild") {
+tasks.register<Exec>("npmInstall") {
     workingDir("../client")
     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-        commandLine("cmd.exe", "/C", "npm.cmd run build")
+        commandLine("cmd.exe", "/C", "npm.cmd install")
     } else {
-        commandLine = listOf("npm", "run", "build")
+        commandLine = listOf("npm", "install")
     }
 }
 
-//tasks.named("jar") {
-//    dependsOn(":server:npmBuild")
-//}
+tasks.register<Exec>("npmBuild") {
+    workingDir("../client")
+    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+        commandLine("cmd.exe", "/C", "npm.cmd run build --verbose")
+    } else {
+        commandLine = listOf("npm", "run", "build", "--verbose")
+    }
+    dependsOn(":server:npmInstall")
+}
+
+tasks.named("processResources") {
+    dependsOn(":server:npmBuild")
+}

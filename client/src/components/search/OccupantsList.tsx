@@ -90,7 +90,7 @@ export default class OccupantsList extends Component<{}, OccupantsListState> {
         if (this.root.current != null) {
             for (var i = 0; i < this.root.current.children.length; i++) {
                 if (this.root.current.children[i].getBoundingClientRect().bottom >= 0) {
-                    const progress = `${i + 1} / ${count}`
+                    // const progress = `${i + 1} / ${count}`
                     const date = formatDate(this.state.occupants[i].date * 1000)
                     this.scrollToast.current?.show(date)
                     break
