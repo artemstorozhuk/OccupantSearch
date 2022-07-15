@@ -22,7 +22,7 @@ class ExportResponder(
 ) : KoinComponent {
     suspend fun respond(pipeline: PipelineContext<Unit, ApplicationCall>) {
         val format = pipeline.context.parameters["format"]?.lowercase()?.let { from(it) } ?: Format.JSON
-        val date = postController.getLatestPostDate()?.format() ?: ""
+        val date = postController.getLatestPostDate().format()
         pipeline.call.response.header(
             name = HttpHeaders.ContentDisposition,
             value = "attachment; filename=\"occupants-$date.${format.value}\""
