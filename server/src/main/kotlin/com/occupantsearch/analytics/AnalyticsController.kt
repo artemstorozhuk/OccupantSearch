@@ -1,7 +1,7 @@
 package com.occupantsearch.analytics
 
 import com.occupantsearch.db.Database
-import com.occupantsearch.time.secondsToStartOfDay
+import com.occupantsearch.time.secondsStartOfDay
 import com.vk.api.sdk.objects.wall.WallpostFull
 import org.koin.core.component.KoinComponent
 import java.util.concurrent.atomic.AtomicReference
@@ -17,7 +17,7 @@ class AnalyticsController(
         postsRepository.getAll().values
             .stream()
             .parallel()
-            .map { it.date.secondsToStartOfDay() }
+            .map { it.date.secondsStartOfDay }
             .collect(Collectors.groupingByConcurrent({ it }, Collectors.counting()))
             .toSortedMap()
     )

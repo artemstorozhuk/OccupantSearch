@@ -90,7 +90,7 @@ export default class AnalyticsChart extends Component {
     render() {
         const values = Object.values(this.state.data)
         const max = Math.max(...values)
-        const labels = Object.keys(this.state.data).map(x => formatDate(Number(x)))
+        const labels = Object.keys(this.state.data).map(x => formatDate(Number(x) * 1000))
         const bgColors = values.map(x => this.toBgColor(x, max))
         const colors = values.map(x => this.toColor(x, max))
 
