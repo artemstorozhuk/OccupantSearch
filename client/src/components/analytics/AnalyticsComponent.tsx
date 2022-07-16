@@ -6,12 +6,10 @@ import AnalyticsChart from './AnalyticsChart';
 export class AnalyticsComponent extends Component {
     render(): ReactNode {
         const menuDrawer = createRef<MenuDrawer>()
-        const navigationBar = createRef<NavigationBar>()
         return <>
             <NavigationBar
-                type={NavigationBarType.EMPTY}
-                ref={navigationBar}
-                onSearchInputChange={() => { }}
+                type={NavigationBarType.LABEL}
+                label='Analytics'
                 onMenuClick={() => menuDrawer.current?.setState({ open: true })}
             />
             <MenuDrawerWrapper
