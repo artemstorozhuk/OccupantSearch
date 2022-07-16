@@ -1,6 +1,7 @@
 import { FileDownload, GitHub, Search, ShowChart } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -17,6 +18,7 @@ const drawerWidth = 240
 export enum MenuDrawerOption {
     SEARCH,
     ANALYTICS,
+    GROUPS,
 }
 
 export interface MenuDrawerProps {
@@ -56,6 +58,10 @@ export function MenuDrawerWrapper(props: MenuDrawerWrapperProps) {
                 }
                 case MenuDrawerOption.ANALYTICS: {
                     navigate('/analytics')
+                    break
+                }
+                case MenuDrawerOption.GROUPS: {
+                    navigate('/groups')
                     break
                 }
             }
@@ -107,6 +113,15 @@ export class MenuDrawer extends Component<MenuDrawerProps, MenuDrawerState> {
                         onClick={() => {
                             this.setState({ open: false })
                             this.props.onOptionSelected(MenuDrawerOption.ANALYTICS)
+                        }}
+                    />
+                    <MenuDrawerItem
+                        itemKey='groups'
+                        text='Groups'
+                        icon={<DynamicFeedIcon />}
+                        onClick={() => {
+                            this.setState({ open: false })
+                            this.props.onOptionSelected(MenuDrawerOption.GROUPS)
                         }}
                     />
                     <Divider />
