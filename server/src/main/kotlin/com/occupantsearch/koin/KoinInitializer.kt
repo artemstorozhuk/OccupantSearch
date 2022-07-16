@@ -1,6 +1,8 @@
 package com.occupantsearch.koin
 
 import com.occupantsearch.analytics.AnalyticsController
+import com.occupantsearch.analytics.OccupantsCountByDateController
+import com.occupantsearch.analytics.PostsCountByDateController
 import com.occupantsearch.args.AppArgsController
 import com.occupantsearch.db.Database
 import com.occupantsearch.export.ExportController
@@ -48,6 +50,8 @@ fun initKoin(): Koin {
             singleOf(::ExportResponder)
             singleOf(::IndexHtmlResponder)
             singleOf(::OccupantsResponder)
+            singleOf(::PostsCountByDateController)
+            singleOf(::OccupantsCountByDateController)
             singleOf(::AnalyticsController)
             singleOf(::AnalyticsResponder)
             singleOf(::AppArgsController)

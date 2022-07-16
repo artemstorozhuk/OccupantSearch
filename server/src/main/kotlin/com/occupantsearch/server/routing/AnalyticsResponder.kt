@@ -13,6 +13,6 @@ class AnalyticsResponder(
 
     suspend fun respond(pipeline: PipelineContext<Unit, ApplicationCall>) =
         pipeline.call.respond(
-            analyticsController.getPostsCountByDate()
+            analyticsController.getAnalytics()
         )
 }

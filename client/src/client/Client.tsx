@@ -1,3 +1,4 @@
+import Analytics from '../model/Analytics'
 import OccupantsResponse from '../model/OccupantsResponse'
 import Post from '../model/Post'
 import { ExportFormat } from './ExportFormat'
@@ -17,9 +18,9 @@ export function getOccupants(query: string, page: number, callback: (result: Occ
         .then(callback)
 }
 
-export function getAnalytics(callback: (result: Map<number, number>) => void) {
+export function getAnalytics(callback: (result: Analytics) => void) {
     fetch(`${apiUrl}/analytics`)
-        .then(result => result.json() as Promise<Map<number, number>>)
+        .then(result => result.json() as Promise<Analytics>)
         .then(callback)
 }
 

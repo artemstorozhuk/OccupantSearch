@@ -28,6 +28,7 @@ import { Component } from 'react'
 import { Line } from 'react-chartjs-2'
 import { getAnalytics } from '../../client/Client'
 import { formatDate } from '../../extensions/Date'
+import Analytics from '../../model/Analytics'
 
 ChartJS.register(
     ArcElement,
@@ -86,30 +87,40 @@ const zoomOptions: ChartOptions = {
 }
 
 export interface AnalyticsChartProps {
-    data: Map<number, number>
+    analytics: Analytics
 }
 
 export default class AnalyticsChart extends Component {
     state = {
-        data: new Map<number, number>()
+        analytics: {
+            postsCountByDate: {},
+            occupantsCountByDate: {},
+        }
     }
 
     componentDidMount() {
-        getAnalytics(result => this.setState({ data: result }))
+        getAnalytics(result => this.setState({ analytics: result }))
     }
 
     render() {
-        const values = Object.values(this.state.data)
-        const labels = Object.keys(this.state.data).map(x => formatDate(Number(x) * 1000))
+        console.log(Object.keys(this.state.analytics.occupantsCountByDate))
+        const labels = Object.keys(this.state.analytics.postsCountByDate).map(x => formatDate(Number(x) * 1000))
         return (
             <Line
                 data={{
                     labels: labels,
-                    datasets: [{
-                        borderColor: 'red',
-                        label: '# of Posts',
-                        data: values,
-                    }]
+                    datasets: [
+                        {
+                            borderColor: 'red',
+                            label: 'Posts',
+                            data: Object.values(this.state.analytics.postsCountByDate),
+                        },
+                        {
+                            borderColor: 'blue',
+                            label: 'Occupants',
+                            data: Object.values(this.state.analytics.occupantsCountByDate),
+                        },
+                    ]
                 }}
                 options={zoomOptions}
             />

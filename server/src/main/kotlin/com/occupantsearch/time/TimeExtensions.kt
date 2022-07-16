@@ -19,4 +19,4 @@ fun measureDuration(lambda: () -> Unit) = measureTimeMillis(lambda).milliseconds
 
 fun Date.format(): String = SimpleDateFormat("dd-MM-yyyy").format(this)
 
-val Int.secondsStartOfDay get() = toLong() / secondsInDay * secondsInDay
+val Int.secondsStartOfDay get() = this / secondsInDay * secondsInDay
