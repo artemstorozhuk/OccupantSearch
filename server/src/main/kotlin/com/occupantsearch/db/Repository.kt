@@ -29,20 +29,28 @@ class Repository<T>(
         }.let { duration -> logger.info("Repository ${clazz.canonicalName} loaded in $duration") }
     }
 
-    operator fun set(key: String, value: T) {
+    operator fun set(key: String, value: T) =
         if (value == null) {
-            File(root, "$key.json").delete()
-            data.remove(key)
+            delete(key)
         } else {
             File(root, "$key.json").rewrite(value.toJson())
             data[key] = value
         }
-    }
 
     fun saveAll(pairs: Collection<Pair<String, T>>) =
         pairs.stream()
             .parallel()
             .forEach { this[it.first] = it.second }
+
+    fun deleteAll(keys: Collection<String>) =
+        keys.stream()
+            .parallel()
+            .forEach { delete(it) }
+
+    fun delete(key: String) {
+        File(root, "$key.json").delete()
+        data.remove(key)
+    }
 
     operator fun get(key: String) = data[key]
 
