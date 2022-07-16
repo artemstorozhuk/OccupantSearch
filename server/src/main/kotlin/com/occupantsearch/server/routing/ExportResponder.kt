@@ -4,7 +4,7 @@ import com.occupantsearch.export.ExportController
 import com.occupantsearch.export.Format
 import com.occupantsearch.export.from
 import com.occupantsearch.time.format
-import com.occupantsearch.vk.PostController
+import com.occupantsearch.vk.PostDownloader
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
@@ -18,11 +18,11 @@ import org.koin.core.component.KoinComponent
 
 class ExportResponder(
     private val exportController: ExportController,
-    private val postController: PostController
+    private val postDownloader: PostDownloader,
 ) : KoinComponent {
     suspend fun respond(pipeline: PipelineContext<Unit, ApplicationCall>) {
         val format = pipeline.context.parameters["format"]?.lowercase()?.let { from(it) } ?: Format.JSON
-        val date = postController.getLatestPostDate().format()
+        val date = postDownloader.getLatestPostDate().format()
         pipeline.call.response.header(
             name = HttpHeaders.ContentDisposition,
             value = "attachment; filename=\"occupants-$date.${format.value}\""

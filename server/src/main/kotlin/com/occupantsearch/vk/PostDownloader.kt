@@ -7,9 +7,9 @@ import org.koin.core.component.KoinComponent
 import java.util.Date
 import java.util.concurrent.atomic.AtomicReference
 
-class PostController(
+class PostDownloader(
     database: Database,
-    private val vkNewsfeedSearcher: VkNewsfeedSearcher
+    private val vkNewsfeedSearcher: VkNewsfeedSearcher,
 ) : KoinComponent {
     private val repository = database[WallpostFull::class.java]
     private val latestPostDate = AtomicReference<Date>(calculateLatestPostDate())

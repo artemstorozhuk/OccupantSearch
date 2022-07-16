@@ -14,6 +14,7 @@ object Versions {
     const val vk = "1.0.14"
     const val opencv = "4.5.1-2"
     const val argparser = "2.0.7"
+    const val jsoup = "1.15.2"
     const val junit = "1.7.0"
 }
 
@@ -34,6 +35,7 @@ dependencies {
     implementation("com.vk.api:sdk:${Versions.vk}")
     implementation("org.openpnp:opencv:${Versions.opencv}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
+    implementation("org.jsoup:jsoup:${Versions.jsoup}")
     testImplementation("io.ktor:ktor-server-tests-jvm:${Versions.ktor}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.junit}")
 }

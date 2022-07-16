@@ -7,6 +7,7 @@ import com.occupantsearch.server.plugins.installStatusPage
 import com.occupantsearch.server.plugins.installZip
 import com.occupantsearch.server.routing.AnalyticsResponder
 import com.occupantsearch.server.routing.ExportResponder
+import com.occupantsearch.server.routing.GroupResponder
 import com.occupantsearch.server.routing.IndexHtmlResponder
 import com.occupantsearch.server.routing.OccupantResponder
 import com.occupantsearch.server.routing.OccupantsResponder
@@ -23,7 +24,8 @@ class Server(
     private val occupantResponder: OccupantResponder,
     private val exportResponder: ExportResponder,
     private val analyticsResponder: AnalyticsResponder,
-    private val appArgsController: AppArgsController
+    private val appArgsController: AppArgsController,
+    private val groupResponder: GroupResponder,
 ) : KoinComponent {
     fun start() = embeddedServer(
         factory = Netty,
@@ -43,6 +45,7 @@ class Server(
                     get("occupant/{name}") { occupantResponder.respond(this) }
                     get("export") { exportResponder.respond(this) }
                     get("analytics") { analyticsResponder.respond(this) }
+                    get("groups") { groupResponder.respond(this) }
                 }
             }
             installStatic()
