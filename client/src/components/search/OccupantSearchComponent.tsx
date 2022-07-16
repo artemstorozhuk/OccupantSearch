@@ -1,6 +1,6 @@
 import { Component, createRef, ReactNode } from 'react';
 import { MenuDrawer, MenuDrawerWrapper } from '../menu/MenuDrawer';
-import NavigationBar, { NavigationBarType } from '../menu/NavigationBar';
+import NavigationBar from '../menu/NavigationBar';
 import OccupantsList from './OccupantsList';
 
 export class OccupantSearchComponent extends Component {
@@ -9,7 +9,6 @@ export class OccupantSearchComponent extends Component {
         const occupantsList = createRef<OccupantsList>()
         return <>
             <NavigationBar
-                type={NavigationBarType.SEARCH}
                 onSearchInputChange={(text: string) => occupantsList.current?.setQuery(text)}
                 onMenuClick={() => menuDrawer.current?.setState({ open: true })}
             />

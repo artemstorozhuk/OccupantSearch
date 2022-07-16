@@ -46,27 +46,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export enum NavigationBarType {
-  SEARCH,
-  LABEL,
-}
-
 export interface NavigationBarProps {
   onSearchInputChange?: (text: string) => void,
   label?: string | null,
   onMenuClick: () => void,
-  type: NavigationBarType,
 }
 
-export interface NavigationBarState {
-  type: NavigationBarType
-}
-
-export default class NavigationBar extends Component<NavigationBarProps, NavigationBarState> {
-  state: NavigationBarState = {
-    type: this.props.type
-  }
-
+export default class NavigationBar extends Component<NavigationBarProps, {}> {
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -86,7 +72,7 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
             >
               <MenuIcon />
             </IconButton>
-            {this.state.type === NavigationBarType.SEARCH &&
+            {this.props.onSearchInputChange != null &&
               <Search>
                 <SearchIconWrapper >
                   <SearchIcon />
@@ -102,7 +88,7 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
                 />
               </Search>
             }
-            {this.state.type == NavigationBarType.LABEL &&
+            {this.props.label != null &&
               <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                 {this.props.label}
               </Typography>

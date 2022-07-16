@@ -1,6 +1,6 @@
 import { Component, createRef, ReactNode } from 'react';
 import { MenuDrawer, MenuDrawerWrapper } from '../menu/MenuDrawer';
-import NavigationBar, { NavigationBarType } from '../menu/NavigationBar';
+import NavigationBar from '../menu/NavigationBar';
 import GroupList from './GroupList';
 
 export class GroupComponent extends Component {
@@ -8,7 +8,6 @@ export class GroupComponent extends Component {
         const menuDrawer = createRef<MenuDrawer>()
         return <>
             <NavigationBar
-                type={NavigationBarType.LABEL}
                 label='Popular Groups'
                 onMenuClick={() => menuDrawer.current?.setState({ open: true })}
             />
