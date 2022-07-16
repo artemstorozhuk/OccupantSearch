@@ -103,7 +103,6 @@ export default class AnalyticsChart extends Component {
     }
 
     render() {
-        console.log(Object.keys(this.state.analytics.occupantsCountByDate))
         const labels = Object.keys(this.state.analytics.postsCountByDate).map(x => formatDate(Number(x) * 1000))
         return (
             <Line
