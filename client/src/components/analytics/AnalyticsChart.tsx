@@ -25,7 +25,7 @@ import {
 } from 'chart.js'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { Component } from 'react'
-import { Bar } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 import { getAnalytics } from '../../client/Client'
 import { formatDate } from '../../extensions/Date'
 
@@ -59,8 +59,13 @@ ChartJS.register(
 )
 
 const zoomOptions: ChartOptions = {
+    responsive: true,
     plugins: {
         zoom: {
+            pan: {
+                enabled: true,
+                mode: 'x',
+            },
             zoom: {
                 wheel: {
                     enabled: true,
@@ -68,8 +73,14 @@ const zoomOptions: ChartOptions = {
                 pinch: {
                     enabled: true
                 },
-                mode: 'xy',
+                mode: 'x',
             }
+        },
+    },
+    elements: {
+        point: {
+            borderWidth: 0,
+            backgroundColor: 'rgba(0,0,0,0)'
         }
     }
 }
@@ -89,37 +100,19 @@ export default class AnalyticsChart extends Component {
 
     render() {
         const values = Object.values(this.state.data)
-        const max = Math.max(...values)
         const labels = Object.keys(this.state.data).map(x => formatDate(Number(x) * 1000))
-        const bgColors = values.map(x => this.toBgColor(x, max))
-        const colors = values.map(x => this.toColor(x, max))
-
         return (
-            <Bar
+            <Line
                 data={{
                     labels: labels,
                     datasets: [{
-                        backgroundColor: bgColors,
-                        borderColor: colors,
+                        borderColor: 'red',
                         label: '# of Posts',
                         data: values,
-                        borderWidth: 1
                     }]
                 }}
                 options={zoomOptions}
             />
         )
-    }
-
-    toColor(value: number, max: number) {
-        return `hsl(${this.percent(value, max)}, 100%, 50%)`
-    }
-
-    toBgColor(value: number, max: number) {
-        return `hsl(${this.percent(value, max)}, 100%, 50%, 0.2)`
-    }
-
-    percent(value: number, max: number) {
-        return 100 - value * 100 / max
     }
 }
