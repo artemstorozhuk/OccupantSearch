@@ -12,7 +12,10 @@ export default function GroupCard(props: GroupCardProp) {
             sx={{
                 margin: 1,
             }}>
-            <CardActionArea href={`https://vk.com${props.group.url}`}>
+            <CardActionArea
+                href={`https://vk.com${props.group.url}`}
+                target='_blank'
+                rel='noopener noreferrer'>
                 <CardHeader
                     avatar={
                         <Avatar src={props.group.avatar} />
