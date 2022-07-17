@@ -50,6 +50,13 @@ Demo hosted at my Raspberry PI: [http://81.102.49.163:8080/](http://81.102.49.16
 ![Demo](demo/image2.jpg)
 ![Demo](demo/image3.jpg)
 
+## Load test
+
+Run from console:
+```
+./gradlew :loadtest:run
+```
+
 ## Contributing
 
 Open PR and ping me.
