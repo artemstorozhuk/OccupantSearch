@@ -51,11 +51,11 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.occupantsearch.MainKt")
+    mainClass.set("com.occupantsearch.OccupantSearch")
 }
 
 tasks.register<JavaExec>("devRun") {
-    mainClass.set("com.occupantsearch.MainKt")
+    mainClass.set("com.occupantsearch.OccupantSearch")
     args = listOf("--enable-cors")
     classpath = sourceSets["main"].runtimeClasspath
 }
