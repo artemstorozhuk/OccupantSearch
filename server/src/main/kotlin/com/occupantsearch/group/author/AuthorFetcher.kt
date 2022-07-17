@@ -3,10 +3,11 @@ package com.occupantsearch.group.author
 import com.occupantsearch.vk.mobilePostUrl
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
 
-class AuthorFetcher : KoinComponent {
+@Single
+class AuthorFetcher {
 
     fun fetch(uniqueId: String): AuthorResult {
         val doc = Jsoup.connect(uniqueId.mobilePostUrl).get()

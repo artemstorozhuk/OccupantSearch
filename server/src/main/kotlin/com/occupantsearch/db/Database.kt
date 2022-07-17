@@ -1,8 +1,10 @@
 package com.occupantsearch.db
 
 import com.occupantsearch.properties.PropertiesController
+import org.koin.core.annotation.Single
 import java.util.concurrent.ConcurrentHashMap
 
+@Single
 class Database(
     props: PropertiesController
 ) {

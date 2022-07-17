@@ -3,13 +3,14 @@ package com.occupantsearch.analytics
 import com.occupantsearch.db.Database
 import com.occupantsearch.time.secondsStartOfDay
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
+@Single
 class PostsCountByDateController(
     database: Database
-) : KoinComponent {
+) {
     private val postsRepository = database[WallpostFull::class.java]
     private val postsCountByDateReference = AtomicReference<Map<Int, Long>>(emptyMap())
 

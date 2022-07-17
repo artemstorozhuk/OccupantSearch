@@ -2,13 +2,14 @@ package com.occupantsearch.analytics
 
 import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.time.secondsStartOfDay
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
+@Single
 class OccupantsCountByDateController(
     private val occupantController: OccupantController,
-) : KoinComponent {
+) {
     private val occupantsCountByDateReference = AtomicReference<Map<Int, Long>>(emptyMap())
 
     fun refresh() = occupantsCountByDateReference.set(

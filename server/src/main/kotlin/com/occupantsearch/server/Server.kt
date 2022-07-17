@@ -16,8 +16,9 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
+@Single
 class Server(
     private val indexHtmlResponder: IndexHtmlResponder,
     private val occupantsResponder: OccupantsResponder,
@@ -26,7 +27,7 @@ class Server(
     private val analyticsResponder: AnalyticsResponder,
     private val appArgsController: AppArgsController,
     private val groupResponder: GroupResponder,
-) : KoinComponent {
+) {
     fun start() = embeddedServer(
         factory = Netty,
         port = 8080

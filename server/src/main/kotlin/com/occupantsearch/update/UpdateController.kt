@@ -8,10 +8,12 @@ import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.properties.PropertiesController
 import com.occupantsearch.time.measureDuration
 import com.occupantsearch.vk.PostDownloader
+import org.koin.core.annotation.Single
 import org.slf4j.LoggerFactory
 import java.util.Timer
 import java.util.TimerTask
 
+@Single
 class UpdateController(
     props: PropertiesController,
     private val occupantController: OccupantController,

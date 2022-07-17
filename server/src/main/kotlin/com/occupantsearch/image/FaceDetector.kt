@@ -1,5 +1,6 @@
 package com.occupantsearch.image
 
+import org.koin.core.annotation.Single
 import org.opencv.core.Mat
 import org.opencv.core.MatOfRect
 import org.opencv.core.Rect
@@ -9,6 +10,7 @@ import kotlin.concurrent.getOrSet
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.deleteIfExists
 
+@Single
 class FaceDetector {
     private val cascadeClassifier = ThreadLocal<CascadeClassifier>()
 

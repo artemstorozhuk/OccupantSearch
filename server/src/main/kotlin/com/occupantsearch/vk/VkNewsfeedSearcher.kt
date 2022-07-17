@@ -9,13 +9,14 @@ import com.vk.api.sdk.client.actors.UserActor
 import com.vk.api.sdk.exceptions.ApiTooManyException
 import com.vk.api.sdk.httpclient.HttpTransportClient
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import org.slf4j.LoggerFactory
 import java.util.Date
 
+@Single
 class VkNewsfeedSearcher(
     props: PropertiesController
-) : KoinComponent {
+) {
     private val logger = LoggerFactory.getLogger(VkNewsfeedSearcher::class.java)
     private val vkClient = VkApiClient(HttpTransportClient())
     private val userActor = UserActor(props["vk"]["user_id"]!!.toInt(), props["vk"]["access_token"])

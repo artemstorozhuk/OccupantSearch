@@ -2,12 +2,13 @@ package com.occupantsearch.person
 
 import com.occupantsearch.resource.ResourceReader
 import com.occupantsearch.text.TextBlockSplitter
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
+@Single
 class PersonTextSearcher(
     resourceReader: ResourceReader,
     private val textBlockSplitter: TextBlockSplitter
-) : KoinComponent {
+) {
     private val names = resourceReader.readResourceAsSet("/names/firstnames.txt")
     private val surnames = resourceReader.readResourceAsSet("/names/lastnames.txt")
 

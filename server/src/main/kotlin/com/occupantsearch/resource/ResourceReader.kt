@@ -1,7 +1,9 @@
 package com.occupantsearch.resource
 
 import com.occupantsearch.io.readText
+import org.koin.core.annotation.Single
 
+@Single
 class ResourceReader {
     fun readResource(resource: String) =
         this::class.java.classLoader.getResourceAsStream(resource)!!.readText()

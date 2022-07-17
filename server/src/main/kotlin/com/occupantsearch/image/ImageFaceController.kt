@@ -5,17 +5,18 @@ import com.occupantsearch.lang.retryUntilSuccess
 import com.occupantsearch.vk.uniqueId
 import com.vk.api.sdk.objects.wall.WallpostFull
 import nu.pattern.OpenCV
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import org.opencv.imgcodecs.Imgcodecs
 import org.slf4j.LoggerFactory
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.deleteIfExists
 
+@Single
 class ImageFaceController(
     database: Database,
     private val faceDetector: FaceDetector,
     private val imageDownloader: ImageDownloader,
-) : KoinComponent {
+) {
     companion object {
         init {
             OpenCV.loadShared()

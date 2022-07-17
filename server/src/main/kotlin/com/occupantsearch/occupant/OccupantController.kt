@@ -8,18 +8,19 @@ import com.occupantsearch.time.measureDuration
 import com.occupantsearch.vk.toDto
 import com.occupantsearch.vk.uniqueId
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
+@Single
 class OccupantController(
     props: PropertiesController,
     database: Database,
     private val personTextSearcher: PersonTextSearcher,
     private val imageFaceController: ImageFaceController,
     private val postFilter: PostFilter,
-) : KoinComponent {
+) {
     private val logger = LoggerFactory.getLogger(OccupantController::class.java)
     private val postsRepository = database[WallpostFull::class.java]
     private val occupantsReference = AtomicReference<List<Occupant>>(emptyList())

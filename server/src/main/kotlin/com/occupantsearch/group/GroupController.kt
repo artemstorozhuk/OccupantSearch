@@ -3,14 +3,15 @@ package com.occupantsearch.group
 import com.occupantsearch.db.Database
 import com.occupantsearch.properties.PropertiesController
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
+@Single
 class GroupController(
     database: Database,
     propertiesController: PropertiesController,
-) : KoinComponent {
+) {
     private val postsRepository = database[WallpostFull::class.java]
     private val groupRepository = database[Group::class.java]
     private val groupsCountReference = AtomicReference<List<Pair<Int, Long>>>(listOf())

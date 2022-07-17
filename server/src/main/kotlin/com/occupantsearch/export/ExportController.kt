@@ -2,11 +2,12 @@ package com.occupantsearch.export
 
 import com.occupantsearch.json.toJson
 import com.occupantsearch.occupant.OccupantController
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
+@Single
 class ExportController(
     private val occupantController: OccupantController
-) : KoinComponent {
+) {
 
     fun export(format: Format): String = when (format) {
         Format.JSON -> occupantController.getAll()

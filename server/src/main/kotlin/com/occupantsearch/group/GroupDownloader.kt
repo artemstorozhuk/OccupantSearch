@@ -8,14 +8,15 @@ import com.occupantsearch.group.author.TooManyRequests
 import com.occupantsearch.group.author.Unavailable
 import com.occupantsearch.vk.uniqueId
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import org.slf4j.LoggerFactory
 import java.util.stream.Collectors
 
+@Single
 class GroupDownloader(
     database: Database,
     private val authorFetcher: AuthorFetcher
-) : KoinComponent {
+) {
     private val logger = LoggerFactory.getLogger(GroupDownloader::class.java)
     private val postsRepository = database[WallpostFull::class.java]
     private val groupRepository = database[Group::class.java]

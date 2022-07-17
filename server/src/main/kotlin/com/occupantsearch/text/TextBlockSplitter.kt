@@ -1,5 +1,8 @@
 package com.occupantsearch.text
 
+import org.koin.core.annotation.Single
+
+@Single
 class TextBlockSplitter {
     private val blockSymbols = listOf(
         "?", "!", "\n", "\r",  "\t", ";", ",", ":", "- ", " -", "(", ")", "\"", "<", ">", "[", "]", "“", "”", "«", "»", " "

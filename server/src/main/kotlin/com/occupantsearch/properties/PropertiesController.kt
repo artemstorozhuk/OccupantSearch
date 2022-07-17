@@ -1,10 +1,12 @@
 package com.occupantsearch.properties
 
 import com.occupantsearch.resource.ResourceReader
+import org.koin.core.annotation.Single
 import java.io.StringReader
 import java.util.Properties
 import java.util.concurrent.ConcurrentHashMap
 
+@Single
 class PropertiesController(
     private val resourceReader: ResourceReader
 ) {

@@ -1,12 +1,14 @@
 plugins {
     kotlin("plugin.serialization") version "1.7.10"
     kotlin("jvm") version "1.7.10"
+    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
     application
 }
 
 object Versions {
     const val koin = "3.2.0"
     const val ktor = "2.0.3"
+    const val koinAnnotations = "1.0.1"
     const val htmlBuilder = "1.6.8"
     const val serialization = "1.3.3"
     const val logback = "1.2.11"
@@ -16,6 +18,10 @@ object Versions {
     const val argparser = "2.0.7"
     const val jsoup = "1.15.2"
     const val junit = "1.7.0"
+}
+
+sourceSets.main {
+    java.srcDirs("build/generated/ksp/main/kotlin")
 }
 
 dependencies {
@@ -32,6 +38,8 @@ dependencies {
     implementation("com.xenomachina:kotlin-argparser:${Versions.argparser}")
     implementation("ch.qos.logback:logback-classic:${Versions.logback}")
     implementation("io.insert-koin:koin-core:${Versions.koin}")
+    implementation("io.insert-koin:koin-annotations:${Versions.koinAnnotations}")
+    ksp("io.insert-koin:koin-ksp-compiler:${Versions.koinAnnotations}")
     implementation("com.vk.api:sdk:${Versions.vk}")
     implementation("org.openpnp:opencv:${Versions.opencv}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")

@@ -13,13 +13,14 @@ import io.ktor.server.application.call
 import io.ktor.server.response.header
 import io.ktor.server.response.respondText
 import io.ktor.util.pipeline.PipelineContext
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
 
+@Single
 class ExportResponder(
     private val exportController: ExportController,
     private val postDownloader: PostDownloader,
-) : KoinComponent {
+) {
     suspend fun respond(pipeline: PipelineContext<Unit, ApplicationCall>) {
         val format = pipeline.context.parameters["format"]?.lowercase()?.let { from(it) } ?: Format.JSON
         val date = postDownloader.getLatestPostDate().format()
