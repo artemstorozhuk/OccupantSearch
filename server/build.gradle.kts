@@ -40,7 +40,9 @@ dependencies {
     implementation("io.insert-koin:koin-core:${Versions.koin}")
     implementation("io.insert-koin:koin-annotations:${Versions.koinAnnotations}")
     ksp("io.insert-koin:koin-ksp-compiler:${Versions.koinAnnotations}")
-    implementation("com.vk.api:sdk:${Versions.vk}")
+    implementation("com.vk.api:sdk:${Versions.vk}") {
+        exclude("org.apache.logging.log4j", "log4j-slf4j-impl")
+    }
     implementation("org.openpnp:opencv:${Versions.opencv}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
     implementation("org.jsoup:jsoup:${Versions.jsoup}")
