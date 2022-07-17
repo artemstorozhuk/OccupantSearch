@@ -8,8 +8,8 @@ class PersonTextSearcher(
     resourceReader: ResourceReader,
     private val textBlockSplitter: TextBlockSplitter
 ) : KoinComponent {
-    private val names = resourceReader.readResourceAsSet("/names/firstnames.txt") { it.first().isUpperCase() }
-    private val surnames = resourceReader.readResourceAsSet("/names/lastnames.txt") { it.first().isUpperCase() }
+    private val names = resourceReader.readResourceAsSet("/names/firstnames.txt")
+    private val surnames = resourceReader.readResourceAsSet("/names/lastnames.txt")
 
     fun search(text: String) =
         textBlockSplitter.splitByBlocks(text)
