@@ -22,7 +22,7 @@ To run locally:
 ```
 ./gradlew :server:devRun
 ```
-Server is started at port is 8080.
+Server is started at port `8080`.
 
 ### Client
 [Typescript + React](client)
