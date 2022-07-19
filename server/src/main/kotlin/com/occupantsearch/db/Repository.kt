@@ -29,6 +29,14 @@ class Repository<T>(
         }.let { duration -> logger.info("Repository ${clazz.canonicalName} loaded in $duration") }
     }
 
+    fun unload() = data.clear()
+
+    fun withData(lambda: (Map<String, T>) -> Unit) {
+        load()
+        lambda(data)
+        unload()
+    }
+
     operator fun set(key: String, value: T) =
         if (value == null) {
             delete(key)

@@ -24,7 +24,7 @@ class ImageFaceController(
     }
 
     private val logger = LoggerFactory.getLogger(ImageFaceController::class.java)
-    private val postsRepository = database[WallpostFull::class.java]
+    private val postsRepository = database.load(WallpostFull::class.java)
     private val faceDetectionsRepository = database[FaceDetections::class.java]
 
     fun refresh() = faceDetectionsRepository.getAll().keys.let { keys ->

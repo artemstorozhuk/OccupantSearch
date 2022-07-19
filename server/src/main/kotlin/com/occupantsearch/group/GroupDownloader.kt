@@ -18,8 +18,8 @@ class GroupDownloader(
     private val authorFetcher: AuthorFetcher
 ) {
     private val logger = LoggerFactory.getLogger(GroupDownloader::class.java)
-    private val postsRepository = database[WallpostFull::class.java]
-    private val groupRepository = database[Group::class.java]
+    private val postsRepository = database.load(WallpostFull::class.java)
+    private val groupRepository = database.load(Group::class.java)
 
     fun downloadNewGroups() {
         val newGroups = getNewGroups()

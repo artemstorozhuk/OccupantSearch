@@ -22,7 +22,7 @@ class OccupantController(
     private val postFilter: PostFilter,
 ) {
     private val logger = LoggerFactory.getLogger(OccupantController::class.java)
-    private val postsRepository = database[WallpostFull::class.java]
+    private val postsRepository = database.load(WallpostFull::class.java)
     private val occupantsReference = AtomicReference<List<Occupant>>(emptyList())
     private val pageSize = props["server"]["page_size"]!!.toInt()
     private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>(emptyMap())

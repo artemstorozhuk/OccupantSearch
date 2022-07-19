@@ -12,7 +12,7 @@ class PostDownloader(
     database: Database,
     private val vkNewsfeedSearcher: VkNewsfeedSearcher,
 ) {
-    private val repository = database[WallpostFull::class.java]
+    private val repository = database.load(WallpostFull::class.java)
     private val latestPostDate = AtomicReference<Date>(calculateLatestPostDate())
 
     fun getLatestPostDate(): Date = latestPostDate.get()

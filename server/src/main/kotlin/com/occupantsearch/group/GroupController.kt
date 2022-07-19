@@ -12,8 +12,8 @@ class GroupController(
     database: Database,
     propertiesController: PropertiesController,
 ) {
-    private val postsRepository = database[WallpostFull::class.java]
-    private val groupRepository = database[Group::class.java]
+    private val postsRepository = database.load(WallpostFull::class.java)
+    private val groupRepository = database.load(Group::class.java)
     private val groupsCountReference = AtomicReference<List<Pair<Int, Long>>>(listOf())
     private val pageSize = propertiesController["server"]["group_page_size"]!!.toInt()
 

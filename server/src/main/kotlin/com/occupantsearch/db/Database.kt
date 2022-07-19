@@ -11,8 +11,10 @@ class Database(
     private val repositories = ConcurrentHashMap<Class<*>, Repository<*>>()
     private val location = props["db"]["location"]!!
 
-    operator fun <T> get(clazz: Class<T>): Repository<T> =
+    operator fun <T> get(clazz: Class<T>) = load(clazz) {}
+
+    fun <T> load(clazz: Class<T>, lambda: (Repository<T>) -> Unit = { it.load() }): Repository<T> =
         repositories.computeIfAbsent(clazz) {
-            Repository(clazz, location).also { it.load() }
+            Repository(clazz, location).also { lambda(it) }
         } as Repository<T>
 }

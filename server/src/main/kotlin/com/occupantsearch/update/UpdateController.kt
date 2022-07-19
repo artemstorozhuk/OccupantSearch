@@ -1,8 +1,10 @@
 package com.occupantsearch.update
 
 import com.occupantsearch.analytics.AnalyticsController
+import com.occupantsearch.db.Database
 import com.occupantsearch.group.GroupController
 import com.occupantsearch.group.GroupDownloader
+import com.occupantsearch.image.FaceDetections
 import com.occupantsearch.image.ImageFaceController
 import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.properties.PropertiesController
@@ -16,6 +18,7 @@ import java.util.TimerTask
 @Single
 class UpdateController(
     props: PropertiesController,
+    database: Database,
     private val occupantController: OccupantController,
     private val postDownloader: PostDownloader,
     private val imageFaceController: ImageFaceController,
@@ -24,16 +27,19 @@ class UpdateController(
     private val groupController: GroupController,
 ) {
     private val logger = LoggerFactory.getLogger(UpdateController::class.java)
+    private val faceDetectionsRepository = database[FaceDetections::class.java]
     private val updateTime = props["server"]["update_time"]!!.toLong()
 
     fun start() = Timer().scheduleAtFixedRate(object : TimerTask() {
         override fun run() = measureDuration {
-            postDownloader.downloadNewPosts()
-            occupantController.refresh()
-            imageFaceController.refresh()
-            analyticsController.refresh()
-            groupDownloader.downloadNewGroups()
-            groupController.refresh()
+            faceDetectionsRepository.withData {
+                postDownloader.downloadNewPosts()
+                occupantController.refresh()
+                imageFaceController.refresh()
+                analyticsController.refresh()
+                groupDownloader.downloadNewGroups()
+                groupController.refresh()
+            }
         }.let { duration -> logger.info("Updated state in $duration") }
     }, 0, updateTime)
 }
