@@ -13,7 +13,9 @@ class Database(
 
     operator fun <T> get(clazz: Class<T>) = load(clazz) {}
 
-    fun <T> load(clazz: Class<T>, lambda: (Repository<T>) -> Unit = { it.load() }): Repository<T> =
+    fun <T> load(clazz: Class<T>) = load(clazz) { it.load() }
+
+    fun <T> load(clazz: Class<T>, lambda: (Repository<T>) -> Unit) =
         repositories.computeIfAbsent(clazz) {
             Repository(clazz, location).also { lambda(it) }
         } as Repository<T>

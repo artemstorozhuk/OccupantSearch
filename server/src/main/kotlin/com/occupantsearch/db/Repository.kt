@@ -1,9 +1,9 @@
 package com.occupantsearch.db
 
+import com.occupantsearch.concurrent.ValueLock
 import com.occupantsearch.io.rewrite
 import com.occupantsearch.json.parseJson
 import com.occupantsearch.json.toJson
-import com.occupantsearch.lang.toMap
 import com.occupantsearch.time.measureDuration
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -17,15 +17,19 @@ class Repository<T>(
     private val logger = LoggerFactory.getLogger(Repository::class.java)
     private val root = File("$location${clazz.canonicalName}")
     private val data = ConcurrentHashMap<String, T>()
+    private val lock = ValueLock()
 
     fun load() {
         root.mkdirs()
         measureDuration {
-            data.putAll(Arrays.stream(root.listFiles()!!).parallel()
-                .map { it.nameWithoutExtension to it.readText().parseJson(clazz) }
-                .filter { it.second != null }
-                .toMap()
-            )
+            Arrays.stream(root.listFiles())
+                .parallel()
+                .forEach { file ->
+                    val key = file.nameWithoutExtension
+                    lock(key) {
+                        data[key] = file.readText().parseJson(clazz)
+                    }
+                }
         }.let { duration -> logger.info("Repository ${clazz.canonicalName} loaded in $duration") }
     }
 
@@ -41,8 +45,10 @@ class Repository<T>(
         if (value == null) {
             delete(key)
         } else {
-            File(root, "$key.json").rewrite(value.toJson())
-            data[key] = value
+            lock(key) {
+                getFile(key).rewrite(value.toJson())
+                data[key] = value
+            }
         }
 
     fun saveAll(pairs: Collection<Pair<String, T>>) =
@@ -55,12 +61,16 @@ class Repository<T>(
             .parallel()
             .forEach { delete(it) }
 
-    fun delete(key: String) {
-        File(root, "$key.json").delete()
+    fun delete(key: String) = lock(key) {
+        getFile(key).delete()
         data.remove(key)
     }
 
     operator fun get(key: String) = data[key]
 
     fun getAll(): Map<String, T> = data
+
+    fun lock(key: String, lambda: () -> Unit) = lock.lock(key, lambda)
+
+    fun getFile(key: String) = File(root, "$key.json")
 }
