@@ -19,7 +19,7 @@ class ImageFaceController(
 ) {
     companion object {
         init {
-            OpenCV.loadShared()
+            OpenCV.loadLocally()
         }
     }
 
