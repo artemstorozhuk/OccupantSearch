@@ -11,7 +11,9 @@ The service searches for dead russians mentioned in [VKontakte](https:://vk.com)
 8. [Posts count by date analytics](server/src/main/kotlin/com/occupantsearch/analytics/AnalyticsController.kt) + [chartjs](https://www.chartjs.org/)
 9. WebApp styled with [MUI](https://mui.com/)
 10. [Export JSON/CSV](server/src/main/kotlin/com/occupantsearch/export/ExportController.kt)
-11. [Popular VK groups](server/src/main/kotlin/com/occupantsearch/group/GroupDownloader.kt).
+11. [Popular VK groups](server/src/main/kotlin/com/occupantsearch/group/GroupDownloader.kt)
+12. Fetch location from post text using [natasha NLP](https://github.com/natasha/natasha)
+13. [Show occupants on map](server/src/main/kotlin/com/occupantsearch/geo)
 
 ## Usage
 
@@ -49,6 +51,7 @@ Demo hosted at my Raspberry PI: [http://81.102.49.163:8080/](http://81.102.49.16
 ![Demo](demo/image1.jpg)
 ![Demo](demo/image2.jpg)
 ![Demo](demo/image3.jpg)
+![Demo](demo/image4.jpg)
 
 ## Load test
 
