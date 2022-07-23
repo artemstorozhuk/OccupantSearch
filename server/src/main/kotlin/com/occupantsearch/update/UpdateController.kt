@@ -6,6 +6,7 @@ import com.occupantsearch.group.GroupController
 import com.occupantsearch.group.GroupDownloader
 import com.occupantsearch.image.FaceDetections
 import com.occupantsearch.image.ImageFaceController
+import com.occupantsearch.natasha.NatashaRefresher
 import com.occupantsearch.occupant.OccupantController
 import com.occupantsearch.properties.PropertiesController
 import com.occupantsearch.time.measureDuration
@@ -19,6 +20,7 @@ import java.util.TimerTask
 class UpdateController(
     props: PropertiesController,
     database: Database,
+    private val natashaController: NatashaRefresher,
     private val occupantController: OccupantController,
     private val postDownloader: PostDownloader,
     private val imageFaceController: ImageFaceController,
@@ -34,6 +36,7 @@ class UpdateController(
         override fun run() = measureDuration {
             faceDetectionsRepository.withData {
                 postDownloader.downloadNewPosts()
+                natashaController.refresh()
                 occupantController.refresh()
                 imageFaceController.refresh()
                 analyticsController.refresh()
