@@ -26,7 +26,7 @@ class GroupController(
             .entries
             .stream()
             .parallel()
-            .filter { groupRepository[it.key.toString()]!!.hasInformation() }
+            .filter { groupRepository[it.key.toString()]?.hasInformation() ?: false }
             .map { Pair(it.key, it.value) }
             .sorted { a, b -> (b.second - a.second).toInt() }
             .collect(Collectors.toList())
