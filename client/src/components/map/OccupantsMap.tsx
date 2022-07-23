@@ -1,12 +1,12 @@
 import L from 'leaflet';
 import { Component, ReactNode } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { getMap } from '../../client/Client';
+import { getImage, getMap } from '../../client/Client';
 
 import MarkerClusterGroup from './MarkerClusterGroup';
 
 const icon = L.icon({
-    iconUrl: 'enemy.png',
+    iconUrl: getImage('enemy.png'),
     iconSize: [30, 30]
 });
 
