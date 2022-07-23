@@ -22,6 +22,7 @@ export default function OccupantCard(props: OccupantCardProp) {
             onClick={() => navigate(`/occupant/${props.occupant.name}`)}>
             <CardMedia
                 component='img'
+                loading='lazy'
                 image={props.occupant.imageUrl != null ? props.occupant.imageUrl : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1200px-Placeholder_no_text.svg.png'}
                 style={{
                     height: '300px',
