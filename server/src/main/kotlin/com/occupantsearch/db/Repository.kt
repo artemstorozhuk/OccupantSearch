@@ -25,9 +25,11 @@ class Repository<T>(
             Arrays.stream(root.listFiles())
                 .parallel()
                 .forEach { file ->
-                    val key = file.nameWithoutExtension
-                    lock(key) {
-                        data[key] = file.readText().parseJson(clazz)
+                    if (file != null) {
+                        val key = file.nameWithoutExtension
+                        lock(key) {
+                            data[key] = file.readText().parseJson(clazz)
+                        }
                     }
                 }
         }.let { duration -> logger.info("Repository ${clazz.canonicalName} loaded in $duration") }
