@@ -2,6 +2,7 @@ import { FileDownload, GitHub, Search, ShowChart } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
+import MapIcon from '@mui/icons-material/Map'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -12,11 +13,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { download } from '../../client/Client'
 import { ExportFormat } from '../../client/ExportFormat'
 import MenuDrawerItem from './MenuDrawerItem'
-
 const drawerWidth = 240
 
 export enum MenuDrawerOption {
     SEARCH,
+    MAP,
     ANALYTICS,
     GROUPS,
 }
@@ -54,6 +55,10 @@ export function MenuDrawerWrapper(props: MenuDrawerWrapperProps) {
             switch (option) {
                 case MenuDrawerOption.SEARCH: {
                     navigate('/')
+                    break
+                }
+                case MenuDrawerOption.MAP: {
+                    navigate('/map')
                     break
                 }
                 case MenuDrawerOption.ANALYTICS: {
@@ -105,6 +110,15 @@ export class MenuDrawer extends Component<MenuDrawerProps, MenuDrawerState> {
                             this.props.onOptionSelected(MenuDrawerOption.SEARCH)
                         }
                         }
+                    />
+                    <MenuDrawerItem
+                        itemKey='map'
+                        text='Map'
+                        icon={<MapIcon />}
+                        onClick={() => {
+                            this.setState({ open: false })
+                            this.props.onOptionSelected(MenuDrawerOption.MAP)
+                        }}
                     />
                     <MenuDrawerItem
                         itemKey='analytics'
