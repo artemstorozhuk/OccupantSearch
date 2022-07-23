@@ -43,6 +43,6 @@ class UpdateController(
                 groupDownloader.downloadNewGroups()
                 groupController.refresh()
             }
-        }.let { duration -> logger.info("Updated state in $duration") }
+        }.let { logger.info("Updated state in ${it.duration}") }
     }, 0, updateTime)
 }

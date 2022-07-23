@@ -1,6 +1,5 @@
 package com.occupantsearch.geo
 
-import com.occupantsearch.db.Database
 import org.koin.core.annotation.Single
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -8,10 +7,9 @@ import java.io.File
 // http://download.geonames.org/export/dump/
 @Single
 class GeoNamesParser(
-    database: Database
+    private val locationsController: LocationController
 ) {
     private val logger = LoggerFactory.getLogger(GeoNamesParser::class.java)
-    private val repository = database.load(Locations::class.java)
 
     fun parse(input: String) = File(input)
         .readText()
@@ -34,6 +32,6 @@ class GeoNamesParser(
         .toMap()
         .let {
             logger.info("Found ${it.size} places.")
-            repository["0"] = Locations(it)
+            locationsController.updateLocations(it)
         }
 }

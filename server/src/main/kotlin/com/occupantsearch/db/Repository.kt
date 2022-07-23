@@ -32,7 +32,7 @@ class Repository<T>(
                         }
                     }
                 }
-        }.let { duration -> logger.info("Repository ${clazz.canonicalName} loaded in $duration") }
+        }.let { logger.info("Repository ${clazz.canonicalName} loaded in ${it.duration}") }
     }
 
     fun unload() = data.clear()

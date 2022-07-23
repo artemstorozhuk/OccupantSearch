@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.Date
-import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
 const val secondsInDay = 60 * 60 * 24
@@ -15,7 +14,14 @@ fun Long.millisToSeconds() = (this / 1000).toInt()
 
 fun Int.secondsToMillis() = toLong() * 1000
 
-fun measureDuration(lambda: () -> Unit) = measureTimeMillis(lambda).milliseconds
+fun <T> measureDuration(lambda: () -> T): MeasureResult<T> {
+    val start = System.currentTimeMillis()
+    val result = lambda()
+    return MeasureResult(
+        result = result,
+        duration = (System.currentTimeMillis() - start).milliseconds
+    )
+}
 
 fun Date.format(): String = SimpleDateFormat("dd-MM-yyyy").format(this)
 

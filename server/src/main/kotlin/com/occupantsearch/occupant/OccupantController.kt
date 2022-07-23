@@ -55,7 +55,7 @@ class OccupantController(
                 occupantsReference.set(list)
                 nameToOccupantReference.set(list.associateBy { it.person.fullName })
             }
-    }.let { duration -> logger.info("Occupants refreshed in $duration") }
+    }.let { logger.info("Occupants refreshed in ${it.duration}") }
 
     fun findPosts(name: String) = nameToOccupantReference.get()[name]?.let { occupant ->
         occupant.postIds

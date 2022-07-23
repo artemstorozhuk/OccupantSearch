@@ -27,6 +27,7 @@ class OccupantComponentWrapper extends Component<OccupantComponentProps, Occupan
     state = {
         posts: []
     }
+
     componentDidMount() {
         getOccupantPosts(this.props.name, result => {
             result.sort((a, b) => (b.date || 0) - (a.date || 0))

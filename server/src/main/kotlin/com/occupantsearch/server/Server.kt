@@ -9,6 +9,7 @@ import com.occupantsearch.server.routing.AnalyticsResponder
 import com.occupantsearch.server.routing.ExportResponder
 import com.occupantsearch.server.routing.GroupResponder
 import com.occupantsearch.server.routing.IndexHtmlResponder
+import com.occupantsearch.server.routing.MapResponder
 import com.occupantsearch.server.routing.OccupantResponder
 import com.occupantsearch.server.routing.OccupantsResponder
 import io.ktor.server.engine.embeddedServer
@@ -27,6 +28,7 @@ class Server(
     private val analyticsResponder: AnalyticsResponder,
     private val appArgsController: AppArgsController,
     private val groupResponder: GroupResponder,
+    private val mapResponder: MapResponder,
 ) {
     fun start() = embeddedServer(
         factory = Netty,
@@ -47,6 +49,7 @@ class Server(
                     get("export") { exportResponder.respond(this) }
                     get("analytics") { analyticsResponder.respond(this) }
                     get("groups") { groupResponder.respond(this) }
+                    get("map") { mapResponder.respond(this) }
                 }
             }
             installStatic()
