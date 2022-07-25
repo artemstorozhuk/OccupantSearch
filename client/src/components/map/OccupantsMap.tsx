@@ -1,7 +1,8 @@
 import L from 'leaflet';
 import { Component, ReactNode } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { getImage, getMap } from '../../client/Client';
+import { getImage } from '../../client/Client';
+import { getMap } from './MapClient';
 
 import MarkerClusterGroup from './MarkerClusterGroup';
 

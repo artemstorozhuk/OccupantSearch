@@ -3,7 +3,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { formatDate } from '../../extensions/Date';
-import Post from '../../model/Post';
+import Post from './Post';
 
 export interface PostComponentProps {
     post: Post

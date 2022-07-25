@@ -1,6 +1,6 @@
 import { Avatar, CardActionArea, CardHeader } from '@mui/material'
 import Card from '@mui/material/Card'
-import Group from '../../model/Group'
+import Group from './Group'
 
 export interface GroupCardProp {
     group: Group

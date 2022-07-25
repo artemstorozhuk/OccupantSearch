@@ -1,11 +1,11 @@
 import { Component, createRef } from 'react'
-import { getOccupants } from '../../client/Client'
 import { formatDate } from '../../extensions/Date'
-import Occupant from '../../model/Occupant'
-import OccupantsResponse from '../../model/OccupantsResponse'
+import Occupant from '../occupant/Occupant'
+import OccupantsResponse from './OccupantsResponse'
 import FoundCountToast from './FoundCountToast'
 import OccupantCard from './OccupantCard'
 import ScrollToast from './ScrollToast'
+import { getOccupants } from './OccupantClient'
 
 export interface OccupantsListState {
     query: string,

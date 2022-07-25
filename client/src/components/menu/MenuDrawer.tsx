@@ -10,8 +10,8 @@ import List from '@mui/material/List'
 import { styled } from '@mui/material/styles'
 import { Component } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { download } from '../../client/Client'
-import { ExportFormat } from '../../client/ExportFormat'
+import { download } from './ExportClient'
+import { ExportFormat } from './ExportFormat'
 import MenuDrawerItem from './MenuDrawerItem'
 const drawerWidth = 240
 

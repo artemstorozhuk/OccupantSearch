@@ -3,7 +3,7 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
-import Occupant from '../../model/Occupant'
+import Occupant from '../occupant/Occupant'
 
 export interface OccupantCardProp {
     occupant: Occupant

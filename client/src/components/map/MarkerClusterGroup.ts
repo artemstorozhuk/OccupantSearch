@@ -25,4 +25,4 @@ const MarkerClusterGroup = createPathComponent(({ children: _c, ...props }, ctx)
     };
 });
 
-export default MarkerClusterGroup;
+export default MarkerClusterGroup

@@ -26,9 +26,9 @@ import {
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { Component } from 'react'
 import { Line } from 'react-chartjs-2'
-import { getAnalytics } from '../../client/Client'
 import { formatDate } from '../../extensions/Date'
-import Analytics from '../../model/Analytics'
+import Analytics from './Analytics'
+import { getAnalytics } from './AnalyticsClient'
 
 ChartJS.register(
     ArcElement,

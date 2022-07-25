@@ -1,7 +1,7 @@
-import { Component, createRef, ReactNode } from "react";
-import { getGroups } from "../../client/Client";
-import Group from "../../model/Group";
-import GroupCard from "./GroupCard";
+import { Component, createRef, ReactNode } from 'react';
+import Group from './Group';
+import GroupCard from './GroupCard';
+import { getGroups } from './GroupClient';
 
 export interface GroupListState {
     page: number,
