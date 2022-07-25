@@ -17,7 +17,7 @@ class GroupController(
     private val groupsCountReference = AtomicReference<List<Pair<Int, Long>>>(listOf())
     private val pageSize = propertiesController["server"]["group_page_size"]!!.toInt()
 
-    fun refresh() = groupsCountReference.set(
+    fun update() = groupsCountReference.set(
         postsRepository.getAll()
             .values
             .stream()

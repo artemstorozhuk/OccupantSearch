@@ -27,7 +27,7 @@ class OccupantController(
     private val pageSize = props["server"]["page_size"]!!.toInt()
     private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>(emptyMap())
 
-    fun refresh() = measureDuration {
+    fun update() = measureDuration {
         postsRepository.getAll()
             .values
             .stream()
@@ -55,7 +55,7 @@ class OccupantController(
                 occupantsReference.set(list)
                 nameToOccupantReference.set(list.associateBy { it.person.fullName })
             }
-    }.let { logger.info("Occupants refreshed in ${it.duration}") }
+    }.let { logger.info("Occupants updated in ${it.duration}") }
 
     fun findPosts(name: String) = nameToOccupantReference.get()[name]?.let { occupant ->
         occupant.postIds

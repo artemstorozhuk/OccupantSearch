@@ -12,7 +12,7 @@ class OccupantsCountByDateController(
 ) {
     private val occupantsCountByDateReference = AtomicReference<Map<Int, Long>>(emptyMap())
 
-    fun refresh() = occupantsCountByDateReference.set(
+    fun update() = occupantsCountByDateReference.set(
         occupantController.getAll().stream()
             .parallel()
             .map { it.date.secondsStartOfDay }

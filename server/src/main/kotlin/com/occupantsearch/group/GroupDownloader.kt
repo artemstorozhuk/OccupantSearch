@@ -46,7 +46,7 @@ class GroupDownloader(
                             name = result.author.name,
                             url = result.author.url,
                             avatar = result.author.avatar
-                        )
+                        ).also { logger.info("Downloaded group ${posts.ownerId}") }
                         is Unavailable -> groupRepository[posts.ownerId.toString()] = Group(ownerId = posts.ownerId)
                         is ParseError -> logger.info("Parse error: ${result.text}")
                         is TooManyRequests -> logger.info("Too many requests: ${posts.first().uniqueId}")

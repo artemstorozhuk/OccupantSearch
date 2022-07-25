@@ -27,7 +27,7 @@ class ImageFaceController(
     private val postsRepository = database.load(WallpostFull::class.java)
     private val faceDetectionsRepository = database[FaceDetections::class.java]
 
-    fun refresh() = faceDetectionsRepository.getAll().keys.let { keys ->
+    fun processNewPosts() = faceDetectionsRepository.getAll().keys.let { keys ->
         postsRepository.getAll().entries
             .stream()
             .parallel()

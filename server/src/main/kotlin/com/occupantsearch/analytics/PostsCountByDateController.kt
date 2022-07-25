@@ -14,7 +14,7 @@ class PostsCountByDateController(
     private val postsRepository = database.load(WallpostFull::class.java)
     private val postsCountByDateReference = AtomicReference<Map<Int, Long>>(emptyMap())
 
-    fun refresh() =
+    fun update() =
         postsCountByDateReference.set(
             postsRepository.getAll().values
                 .stream()

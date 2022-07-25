@@ -7,9 +7,9 @@ class AnalyticsController(
     private val occupantsCountByDateController: OccupantsCountByDateController,
     private val postsCountByDateController: PostsCountByDateController,
 ) {
-    fun refresh() {
-        occupantsCountByDateController.refresh()
-        postsCountByDateController.refresh()
+    fun update() {
+        occupantsCountByDateController.update()
+        postsCountByDateController.update()
     }
 
     fun getAnalytics() = AnalyticsDto(

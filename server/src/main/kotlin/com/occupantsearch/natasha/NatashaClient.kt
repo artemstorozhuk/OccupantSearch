@@ -16,7 +16,7 @@ class NatashaClient(
     private val url = propertiesController["natasha"]["url"]!!
     private val client = HttpClient.newBuilder().build()
 
-    fun process(text: String) =
+    fun query(text: String) =
         HttpRequest.newBuilder()
             .uri(URI.create(url))
             .POST(HttpRequest.BodyPublishers.ofString(text))
