@@ -34,15 +34,15 @@ class UpdateController(
 
     fun start() = Timer().scheduleAtFixedRate(object : TimerTask() {
         override fun run() = measureDuration {
+            postDownloader.downloadNewPosts()
             faceDetectionsRepository.withData {
-                postDownloader.downloadNewPosts()
-                natashaController.processNewPosts()
-                occupantController.update()
                 imageFaceController.processNewPosts()
-                analyticsController.update()
-                groupDownloader.downloadNewGroups()
-                groupController.update()
+                occupantController.update()
             }
+            natashaController.processNewPosts()
+            analyticsController.update()
+            groupDownloader.downloadNewGroups()
+            groupController.update()
         }.let { logger.info("Updated state in ${it.duration}") }
     }, 0, updateTime)
 }
