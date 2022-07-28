@@ -28,6 +28,8 @@ class OccupantController(
     private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>(emptyMap())
 
     fun update() = measureDuration {
+        occupantsReference.set(emptyList())
+        nameToOccupantReference.set(emptyMap())
         postsRepository.getAll()
             .values
             .stream()
