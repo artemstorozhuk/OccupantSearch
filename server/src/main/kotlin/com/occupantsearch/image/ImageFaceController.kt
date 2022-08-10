@@ -48,7 +48,7 @@ class ImageFaceController(
         },
         onError = {
             logger.info(it.message, it)
-            true
+            false
         }
     )
 
