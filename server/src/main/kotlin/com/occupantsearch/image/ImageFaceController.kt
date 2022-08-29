@@ -54,16 +54,19 @@ class ImageFaceController(
 
     fun detectFaces(wallpostFull: WallpostFull) = imageDownloader.download(wallpostFull)
         .map { entry ->
-            val path = entry.value.absolutePathString()
-            logger.info("Processing image $path")
-            val src = Imgcodecs.imread(path)
-            val faceDetection = FaceDetection(
-                uri = entry.key.toString(),
-                size = src.size(),
-                result = faceDetector.detect(src)
-            )
-            src.release()
-            entry.value.deleteIfExists()
-            faceDetection
+            try {
+                val path = entry.value.absolutePathString()
+                logger.info("Processing image $path")
+                val src = Imgcodecs.imread(path)
+                val faceDetection = FaceDetection(
+                    uri = entry.key.toString(),
+                    size = src.size(),
+                    result = faceDetector.detect(src)
+                )
+                src.release()
+                faceDetection
+            } finally {
+                entry.value.deleteIfExists()
+            }
         }
 }
