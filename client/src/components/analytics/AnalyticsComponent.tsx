@@ -1,17 +1,14 @@
 import { Component, createRef, ReactNode } from 'react';
 import { MenuDrawer, MenuDrawerWrapper } from '../menu/MenuDrawer';
-import NavigationBar, { NavigationBarType } from '../menu/NavigationBar';
+import NavigationBar from '../menu/NavigationBar';
 import AnalyticsChart from './AnalyticsChart';
 
 export class AnalyticsComponent extends Component {
     render(): ReactNode {
         const menuDrawer = createRef<MenuDrawer>()
-        const navigationBar = createRef<NavigationBar>()
         return <>
             <NavigationBar
-                type={NavigationBarType.EMPTY}
-                ref={navigationBar}
-                onSearchInputChange={() => { }}
+                label='Analytics'
                 onMenuClick={() => menuDrawer.current?.setState({ open: true })}
             />
             <MenuDrawerWrapper

@@ -25,9 +25,10 @@ import {
 } from 'chart.js'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { Component } from 'react'
-import { Bar } from 'react-chartjs-2'
-import { getAnalytics } from '../../client/Client'
+import { Line } from 'react-chartjs-2'
 import { formatDate } from '../../extensions/Date'
+import Analytics from './Analytics'
+import { getAnalytics } from './AnalyticsClient'
 
 ChartJS.register(
     ArcElement,
@@ -59,8 +60,13 @@ ChartJS.register(
 )
 
 const zoomOptions: ChartOptions = {
+    responsive: true,
     plugins: {
         zoom: {
+            pan: {
+                enabled: true,
+                mode: 'x',
+            },
             zoom: {
                 wheel: {
                     enabled: true,
@@ -68,58 +74,55 @@ const zoomOptions: ChartOptions = {
                 pinch: {
                     enabled: true
                 },
-                mode: 'xy',
+                mode: 'x',
             }
+        },
+    },
+    elements: {
+        point: {
+            borderWidth: 0,
+            backgroundColor: 'rgba(0,0,0,0)'
         }
     }
 }
 
 export interface AnalyticsChartProps {
-    data: Map<number, number>
+    analytics: Analytics
 }
 
 export default class AnalyticsChart extends Component {
     state = {
-        data: new Map<number, number>()
+        analytics: {
+            postsCountByDate: {},
+            occupantsCountByDate: {},
+        }
     }
 
     componentDidMount() {
-        getAnalytics(result => this.setState({ data: result }))
+        getAnalytics(result => this.setState({ analytics: result }))
     }
 
     render() {
-        const values = Object.values(this.state.data)
-        const max = Math.max(...values)
-        const labels = Object.keys(this.state.data).map(x => formatDate(Number(x)))
-        const bgColors = values.map(x => this.toBgColor(x, max))
-        const colors = values.map(x => this.toColor(x, max))
-
+        const labels = Object.keys(this.state.analytics.postsCountByDate).map(x => formatDate(Number(x) * 1000))
         return (
-            <Bar
+            <Line
                 data={{
                     labels: labels,
-                    datasets: [{
-                        backgroundColor: bgColors,
-                        borderColor: colors,
-                        label: '# of Posts',
-                        data: values,
-                        borderWidth: 1
-                    }]
+                    datasets: [
+                        {
+                            borderColor: 'red',
+                            label: 'Posts',
+                            data: Object.values(this.state.analytics.postsCountByDate),
+                        },
+                        {
+                            borderColor: 'blue',
+                            label: 'Occupants',
+                            data: Object.values(this.state.analytics.occupantsCountByDate),
+                        },
+                    ]
                 }}
                 options={zoomOptions}
             />
         )
-    }
-
-    toColor(value: number, max: number) {
-        return `hsl(${this.percent(value, max)}, 100%, 50%)`
-    }
-
-    toBgColor(value: number, max: number) {
-        return `hsl(${this.percent(value, max)}, 100%, 50%, 0.2)`
-    }
-
-    percent(value: number, max: number) {
-        return 100 - value * 100 / max
     }
 }

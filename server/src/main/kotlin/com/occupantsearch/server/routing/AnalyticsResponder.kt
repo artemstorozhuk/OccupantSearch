@@ -5,14 +5,15 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.util.pipeline.PipelineContext
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
+@Single
 class AnalyticsResponder(
     private val analyticsController: AnalyticsController
-) : KoinComponent {
+) {
 
     suspend fun respond(pipeline: PipelineContext<Unit, ApplicationCall>) =
         pipeline.call.respond(
-            analyticsController.getPostsCountByDate()
+            analyticsController.getAnalytics()
         )
 }

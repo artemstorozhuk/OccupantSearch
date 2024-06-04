@@ -1,6 +1,8 @@
 import { FileDownload, GitHub, Search, ShowChart } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
+import MapIcon from '@mui/icons-material/Map'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -8,15 +10,16 @@ import List from '@mui/material/List'
 import { styled } from '@mui/material/styles'
 import { Component } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { download } from '../../client/Client'
-import { ExportFormat } from '../../client/ExportFormat'
+import { download } from './ExportClient'
+import { ExportFormat } from './ExportFormat'
 import MenuDrawerItem from './MenuDrawerItem'
-
 const drawerWidth = 240
 
 export enum MenuDrawerOption {
     SEARCH,
+    MAP,
     ANALYTICS,
+    GROUPS,
 }
 
 export interface MenuDrawerProps {
@@ -54,8 +57,16 @@ export function MenuDrawerWrapper(props: MenuDrawerWrapperProps) {
                     navigate('/')
                     break
                 }
+                case MenuDrawerOption.MAP: {
+                    navigate('/map')
+                    break
+                }
                 case MenuDrawerOption.ANALYTICS: {
                     navigate('/analytics')
+                    break
+                }
+                case MenuDrawerOption.GROUPS: {
+                    navigate('/groups')
                     break
                 }
             }
@@ -101,12 +112,30 @@ export class MenuDrawer extends Component<MenuDrawerProps, MenuDrawerState> {
                         }
                     />
                     <MenuDrawerItem
+                        itemKey='map'
+                        text='Map'
+                        icon={<MapIcon />}
+                        onClick={() => {
+                            this.setState({ open: false })
+                            this.props.onOptionSelected(MenuDrawerOption.MAP)
+                        }}
+                    />
+                    <MenuDrawerItem
                         itemKey='analytics'
                         text='Analytics'
                         icon={<ShowChart />}
                         onClick={() => {
                             this.setState({ open: false })
                             this.props.onOptionSelected(MenuDrawerOption.ANALYTICS)
+                        }}
+                    />
+                    <MenuDrawerItem
+                        itemKey='groups'
+                        text='Groups'
+                        icon={<DynamicFeedIcon />}
+                        onClick={() => {
+                            this.setState({ open: false })
+                            this.props.onOptionSelected(MenuDrawerOption.GROUPS)
                         }}
                     />
                     <Divider />

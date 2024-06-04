@@ -1,6 +1,6 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
-import { alpha, InputBase, styled } from '@mui/material'
+import { alpha, InputBase, styled, Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
@@ -46,26 +46,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export enum NavigationBarType {
-  SEARCH,
-  EMPTY,
-}
-
 export interface NavigationBarProps {
-  onSearchInputChange: (text: string) => void
+  onSearchInputChange?: (text: string) => void,
+  label?: string | null,
   onMenuClick: () => void,
-  type: NavigationBarType,
 }
 
-export interface NavigationBarState {
-  type: NavigationBarType
-}
-
-export default class NavigationBar extends Component<NavigationBarProps, NavigationBarState> {
-  state: NavigationBarState = {
-    type: this.props.type
-  }
-
+export default class NavigationBar extends Component<NavigationBarProps, {}> {
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -85,7 +72,7 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
             >
               <MenuIcon />
             </IconButton>
-            {this.state.type === NavigationBarType.SEARCH &&
+            {this.props.onSearchInputChange != null &&
               <Search>
                 <SearchIconWrapper >
                   <SearchIcon />
@@ -93,9 +80,18 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
                 <StyledInputBase
                   placeholder='Search…'
                   inputProps={{ 'aria-label': 'search' }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.onSearchInputChange(event.target.value)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    if (this.props.onSearchInputChange != null) {
+                      this.props.onSearchInputChange(event.target.value)
+                    }
+                  }}
                 />
               </Search>
+            }
+            {this.props.label != null &&
+              <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+                {this.props.label}
+              </Typography>
             }
           </Toolbar>
         </AppBar>

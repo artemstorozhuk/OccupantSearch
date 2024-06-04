@@ -3,15 +3,16 @@ package com.occupantsearch.vk
 import com.occupantsearch.db.Database
 import com.occupantsearch.time.secondsToMillis
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import java.util.Date
 import java.util.concurrent.atomic.AtomicReference
 
-class PostController(
+@Single
+class PostDownloader(
     database: Database,
-    private val vkNewsfeedSearcher: VkNewsfeedSearcher
-) : KoinComponent {
-    private val repository = database[WallpostFull::class.java]
+    private val vkNewsfeedSearcher: VkNewsfeedSearcher,
+) {
+    private val repository = database.load(WallpostFull::class.java)
     private val latestPostDate = AtomicReference<Date>(calculateLatestPostDate())
 
     fun getLatestPostDate(): Date = latestPostDate.get()

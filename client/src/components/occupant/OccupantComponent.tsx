@@ -2,8 +2,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { Component, ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getOccupantPosts } from '../../client/Client';
-import Post from '../../model/Post';
+import Post from './Post';
+import { getOccupantPosts } from './PostClient';
 import { PostComponent } from './PostComponent';
 
 export interface OccupantComponentProps {
@@ -27,6 +27,7 @@ class OccupantComponentWrapper extends Component<OccupantComponentProps, Occupan
     state = {
         posts: []
     }
+
     componentDidMount() {
         getOccupantPosts(this.props.name, result => {
             result.sort((a, b) => (b.date || 0) - (a.date || 0))

@@ -1,4 +1,4 @@
-import Occupant from './Occupant';
+import Occupant from '../occupant/Occupant';
 
 export default interface OccupantsResponse {
     occupants: Array<Occupant>,

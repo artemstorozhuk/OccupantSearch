@@ -8,25 +8,28 @@ import com.occupantsearch.time.measureDuration
 import com.occupantsearch.vk.toDto
 import com.occupantsearch.vk.uniqueId
 import com.vk.api.sdk.objects.wall.WallpostFull
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
+@Single
 class OccupantController(
     props: PropertiesController,
     database: Database,
     private val personTextSearcher: PersonTextSearcher,
     private val imageFaceController: ImageFaceController,
     private val postFilter: PostFilter,
-) : KoinComponent {
+) {
     private val logger = LoggerFactory.getLogger(OccupantController::class.java)
-    private val postsRepository = database[WallpostFull::class.java]
+    private val postsRepository = database.load(WallpostFull::class.java)
     private val occupantsReference = AtomicReference<List<Occupant>>(emptyList())
     private val pageSize = props["server"]["page_size"]!!.toInt()
     private val nameToOccupantReference = AtomicReference<Map<String, Occupant>>(emptyMap())
 
-    fun refresh() = measureDuration {
+    fun update() = measureDuration {
+        occupantsReference.set(emptyList())
+        nameToOccupantReference.set(emptyMap())
         postsRepository.getAll()
             .values
             .stream()
@@ -54,7 +57,7 @@ class OccupantController(
                 occupantsReference.set(list)
                 nameToOccupantReference.set(list.associateBy { it.person.fullName })
             }
-    }.let { duration -> logger.info("Occupants refreshed in $duration") }
+    }.let { logger.info("Occupants updated in ${it.duration}") }
 
     fun findPosts(name: String) = nameToOccupantReference.get()[name]?.let { occupant ->
         occupant.postIds

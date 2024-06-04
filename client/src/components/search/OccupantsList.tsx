@@ -1,10 +1,11 @@
 import { Component, createRef } from 'react'
-import { getOccupants } from '../../client/Client'
 import { formatDate } from '../../extensions/Date'
-import Occupant from '../../model/Occupant'
-import OccupantsResponse from '../../model/OccupantsResponse'
+import Occupant from '../occupant/Occupant'
+import OccupantsResponse from './OccupantsResponse'
+import FoundCountToast from './FoundCountToast'
 import OccupantCard from './OccupantCard'
 import ScrollToast from './ScrollToast'
+import { getOccupants } from './OccupantClient'
 
 export interface OccupantsListState {
     query: string,
@@ -25,19 +26,20 @@ export default class OccupantsList extends Component<{}, OccupantsListState> {
 
     private root = createRef<HTMLDivElement>()
     private scrollToast = createRef<ScrollToast>()
+    private foundCountToast = createRef<FoundCountToast>()
 
     private onScroll = () => {
-        this.updateToast(this.state.foundCount)
+        this.updateToast()
         if (!this.state.loading &&
             this.state.occupants.length < this.state.foundCount &&
             this.root?.current != null &&
             window.scrollY + 4 * window.innerHeight > this.root.current.clientHeight) {
-            this.load(this.state.query, this.state.page, this.state.occupants)
+            this.load(this.state.query, this.state.page, this.state.occupants, false)
         }
     }
 
     componentDidMount() {
-        this.load('', 0, [])
+        this.load('', 0, [], true)
         document.addEventListener('scroll', this.onScroll)
     }
 
@@ -63,16 +65,18 @@ export default class OccupantsList extends Component<{}, OccupantsListState> {
                         ))
                     }
                 </div>
+                <FoundCountToast
+                    ref={this.foundCountToast} />
             </>
         )
     }
 
     setQuery(text: string) {
         window.scrollTo(0, 0)
-        this.load(text, 0, [])
+        this.load(text, 0, [], true)
     }
 
-    private load(query: string, page: number, occupants: Array<Occupant>) {
+    load(query: string, page: number, occupants: Array<Occupant>, showFoundCound: boolean) {
         this.setState({ loading: true })
         getOccupants(query, page, (result: OccupantsResponse) => {
             this.setState({
@@ -82,15 +86,17 @@ export default class OccupantsList extends Component<{}, OccupantsListState> {
                 occupants: occupants.concat(result.occupants),
                 foundCount: result.foundCount,
             })
-            this.updateToast(result.foundCount)
+            if (showFoundCound) {
+                this.foundCountToast?.current?.show(`Found ${result.foundCount}`)
+            }
+            this.updateToast()
         })
     }
 
-    private updateToast(count: number) {
+    updateToast() {
         if (this.root.current != null) {
             for (var i = 0; i < this.root.current.children.length; i++) {
                 if (this.root.current.children[i].getBoundingClientRect().bottom >= 0) {
-                    const progress = `${i + 1} / ${count}`
                     const date = formatDate(this.state.occupants[i].date * 1000)
                     this.scrollToast.current?.show(date)
                     break

@@ -1,9 +1,10 @@
 package com.occupantsearch.args
 
 import com.xenomachina.argparser.ArgParser
-import org.koin.core.component.KoinComponent
+import org.koin.core.annotation.Single
 
-class AppArgsController : KoinComponent {
+@Single
+class AppArgsController {
     lateinit var appArgs: AppArgs
 
     fun init(args: Array<String>) {
