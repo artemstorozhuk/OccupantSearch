@@ -1,4 +1,4 @@
-package com.occupantsearch.update
+package com.occupantsearch.refresh
 
 import com.occupantsearch.analytics.AnalyticsController
 import com.occupantsearch.db.Database
@@ -17,7 +17,7 @@ import java.util.Timer
 import java.util.TimerTask
 
 @Single
-class UpdateController(
+class Refresh(
     props: PropertiesController,
     database: Database,
     private val natashaController: NatashaProcessor,
@@ -28,11 +28,11 @@ class UpdateController(
     private val groupDownloader: GroupDownloader,
     private val groupController: GroupController,
 ) {
-    private val logger = LoggerFactory.getLogger(UpdateController::class.java)
+    private val logger = LoggerFactory.getLogger(Refresh::class.java)
     private val faceDetectionsRepository = database[FaceDetections::class.java]
     private val updateTime = props["server"]["update_time"]!!.toLong()
 
-    fun start() = Timer().scheduleAtFixedRate(object : TimerTask() {
+    fun startRefresh() = Timer().scheduleAtFixedRate(object : TimerTask() {
         override fun run() = measureDuration {
             postDownloader.downloadNewPosts()
             faceDetectionsRepository.withData {

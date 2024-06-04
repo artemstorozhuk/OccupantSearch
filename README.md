@@ -2,7 +2,7 @@
 
 The service searches for dead russians mentioned in [VKontakte](https:://vk.com). Features:
 1. Uses [VK API](https://github.com/VKCOM/vk-java-sdk) to search for posts
-2. [Periodic refresh of new posts](server/src/main/kotlin/com/occupantsearch/update/UpdateController.kt)
+2. [Periodic refresh of new posts](server/src/main/kotlin/com/occupantsearch/refresh/UpdateController.kt)
 3. [Name detection in the post's text](server/src/main/kotlin/com/occupantsearch/person/PersonTextSearcher.kt)
 4. [Face detection](server/src/main/kotlin/com/occupantsearch/image) using [OpenCV](https://opencv.org/)
 5. Filter by name

@@ -2,7 +2,7 @@ package com.occupantsearch
 
 import com.occupantsearch.args.AppArgsInit
 import com.occupantsearch.server.Server
-import com.occupantsearch.update.UpdateController
+import com.occupantsearch.refresh.Refresh
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.context.GlobalContext.startKoin
@@ -15,7 +15,7 @@ object OccupantSearch {
     fun main(args: Array<String>): Unit =
         startKoin { modules(module) }.koin.run {
             get<AppArgsInit>().init(args)
-            get<UpdateController>().start()
+            get<Refresh>().startRefresh()
             get<Server>().start()
         }
 }
