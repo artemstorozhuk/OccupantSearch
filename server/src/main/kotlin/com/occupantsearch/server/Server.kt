@@ -1,6 +1,6 @@
 package com.occupantsearch.server
 
-import com.occupantsearch.args.AppArgsController
+import com.occupantsearch.args.AppArgsInit
 import com.occupantsearch.server.plugins.installCors
 import com.occupantsearch.server.plugins.installJson
 import com.occupantsearch.server.plugins.installStatusPage
@@ -26,7 +26,7 @@ class Server(
     private val occupantResponder: OccupantResponder,
     private val exportResponder: ExportResponder,
     private val analyticsResponder: AnalyticsResponder,
-    private val appArgsController: AppArgsController,
+    private val appArgsController: AppArgsInit,
     private val groupResponder: GroupResponder,
     private val mapResponder: MapResponder,
 ) {

@@ -4,7 +4,7 @@ import com.xenomachina.argparser.ArgParser
 import org.koin.core.annotation.Single
 
 @Single
-class AppArgsController {
+class AppArgsInit {
     lateinit var appArgs: AppArgs
 
     fun init(args: Array<String>) {

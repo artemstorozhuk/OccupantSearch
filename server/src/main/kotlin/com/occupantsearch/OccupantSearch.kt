@@ -1,6 +1,6 @@
 package com.occupantsearch
 
-import com.occupantsearch.args.AppArgsController
+import com.occupantsearch.args.AppArgsInit
 import com.occupantsearch.server.Server
 import com.occupantsearch.update.UpdateController
 import org.koin.core.annotation.ComponentScan
@@ -14,7 +14,7 @@ object OccupantSearch {
     @JvmStatic
     fun main(args: Array<String>): Unit =
         startKoin { modules(module) }.koin.run {
-            get<AppArgsController>().init(args)
+            get<AppArgsInit>().init(args)
             get<UpdateController>().start()
             get<Server>().start()
         }
