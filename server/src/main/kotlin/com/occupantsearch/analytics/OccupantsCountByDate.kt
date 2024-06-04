@@ -7,13 +7,14 @@ import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
 @Single
-class OccupantsCountByDateController(
+class OccupantsCountByDate(
     private val occupantController: OccupantController,
 ) {
     private val occupantsCountByDateReference = AtomicReference<Map<Int, Long>>(emptyMap())
 
     fun update() = occupantsCountByDateReference.set(
-        occupantController.getAll().stream()
+        occupantController.getAll()
+            .stream()
             .parallel()
             .map { it.date.secondsStartOfDay }
             .collect(Collectors.groupingByConcurrent({ it }, Collectors.counting()))

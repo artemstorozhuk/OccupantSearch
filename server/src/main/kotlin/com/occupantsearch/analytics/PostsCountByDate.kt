@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Collectors
 
 @Single
-class PostsCountByDateController(
-    database: Database
+class PostsCountByDate(
+    database: Database,
 ) {
     private val postsRepository = database.load(WallpostFull::class.java)
     private val postsCountByDateReference = AtomicReference<Map<Int, Long>>(emptyMap())

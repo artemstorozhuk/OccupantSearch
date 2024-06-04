@@ -5,7 +5,7 @@ import com.occupantsearch.server.plugins.installCors
 import com.occupantsearch.server.plugins.installJson
 import com.occupantsearch.server.plugins.installStatusPage
 import com.occupantsearch.server.plugins.installZip
-import com.occupantsearch.server.routing.AnalyticsResponder
+import com.occupantsearch.server.routing.Analytics
 import com.occupantsearch.server.routing.ExportResponder
 import com.occupantsearch.server.routing.GroupResponder
 import com.occupantsearch.server.routing.IndexHtmlResponder
@@ -25,7 +25,7 @@ class Server(
     private val occupantsResponder: OccupantsResponder,
     private val occupantResponder: OccupantResponder,
     private val exportResponder: ExportResponder,
-    private val analyticsResponder: AnalyticsResponder,
+    private val analyticsResponder: Analytics,
     private val appArgsController: AppArgsInit,
     private val groupResponder: GroupResponder,
     private val mapResponder: MapResponder,

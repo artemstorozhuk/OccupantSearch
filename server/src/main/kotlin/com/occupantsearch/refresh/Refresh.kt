@@ -1,6 +1,6 @@
 package com.occupantsearch.refresh
 
-import com.occupantsearch.analytics.AnalyticsController
+import com.occupantsearch.analytics.Analytics
 import com.occupantsearch.db.Database
 import com.occupantsearch.group.GroupController
 import com.occupantsearch.group.GroupDownloader
@@ -24,7 +24,7 @@ class Refresh(
     private val occupantController: OccupantController,
     private val postDownloader: PostDownloader,
     private val imageFaceController: ImageFaceController,
-    private val analyticsController: AnalyticsController,
+    private val analyticsController: Analytics,
     private val groupDownloader: GroupDownloader,
     private val groupController: GroupController,
 ) {
